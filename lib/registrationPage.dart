@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
-class RegistrationPage extends StatelessWidget {
+class RegistrationPage extends StatefulWidget {
+  @override
+  _RegistrationPageState createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
+  String confirmedPassword;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +20,9 @@ class RegistrationPage extends StatelessWidget {
               obscureText: true,
               decoration: InputDecoration(
                   labelText: "Confirm Password", border: OutlineInputBorder()),
+              onChanged: (String confirmedPass){
+                this.confirmedPassword = confirmedPass;
+              },
             ),
           ),
           SizedBox(

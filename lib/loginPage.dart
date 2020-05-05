@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             TextField(
               decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Username"),
-              onSubmitted: (String username){
+              onChanged: (String username){
                 this.username = username;
                 print("Username: $username");
               },
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               obscureText: true,
               decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Password"),
-              onSubmitted: (String password){
+              onChanged: (String password){
                 this.password = password;
                 print("Password: $password");
               }
