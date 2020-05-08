@@ -9,6 +9,19 @@ class AuthenticationServices{
     return _auth.onAuthStateChanged;
   }
 
+  //Sign in using email and password
+  Future logInWithEmailAndPassword(String email, String password) async {
+    try{
+      dynamic result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      print(result);
+      // Sending an array with the first element being a boolean value while the rest being the resultant data
+      return [true,result];
+    }catch(e){
+      print(e.toString());
+      return [false,e];
+    }
+  }
+
   //Register using email and password
   Future registerWithEmailAndPassword(String email, String password) async {
     try{

@@ -11,6 +11,8 @@ class _LoginPageState extends State<LoginPage> {
 
   String password;
 
+  String errorMessage=" ";
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -26,6 +28,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text("$errorMessage"),
+              SizedBox(height: 15),
               TextFormField(
                 //TODO:instead of isEmpty, check for validity of email [use Regular Exp.]
                 validator: (email) => email.isEmpty ? "Enter your e-mail" : null,
@@ -40,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 10,
               ),
               TextFormField(
-                validator: (password)=> password.length <= 4?"Password too snmall":null,
+                validator: (password)=> password.isEmpty?"Please enter your password":null,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), labelText: "Password"),
@@ -63,10 +67,25 @@ class _LoginPageState extends State<LoginPage> {
                         child: RaisedButton(
                           //LOGIN BUTTON
                           child: Text("Login"),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              AuthenticationServices().signInAnonymous();
-                              print("email: $email \nPassword: $password");
+                          onPressed: () async {
+                            if(_formKey.currentState.validate()){
+                              dynamic data = await AuthenticationServices().logInWithEmailAndPassword(email, password);
+                              bool userExist = data[0];
+                              dynamic userData = data[1];
+                              if( userExist== true) {
+                                print(userData);
+                                print("Logged in");
+                                setState(() {
+                                  errorMessage = " ";
+                                });
+                                Navigator.popUntil(context, ModalRoute.withName('/'));
+                              }else{
+                                print("Error");
+                                setState(() {
+                                  print(userData);
+                                  errorMessage = userData.toString().split(new RegExp(r','))[1];
+                                });
+                              }
                             }
                           },
                         ),
