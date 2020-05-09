@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shopwork/services/database.dart';
 
 class AuthenticationServices{
 
@@ -23,9 +24,10 @@ class AuthenticationServices{
   }
 
   //Register using email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String email, String password, String typeOfUser) async {
     try{
       dynamic result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      DatabaseServices(uid: result.user.uid).registerUserData(typeOfUser: typeOfUser);
       print(result);
       // Sending an array with the first element being a boolean value while the rest being the resultant data
       return [true,result];
