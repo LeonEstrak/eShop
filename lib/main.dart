@@ -7,8 +7,6 @@ import 'Login/registrationPage.dart';
 import 'home/home.dart';
 
 //TODO: Create a loading screen
-//TODO: Update the data base as soon as registration hits, name, mobile, address etc.
-//TODO: Create a proper Registration Form.
 
 void main() => runApp(Application());
 
@@ -46,42 +44,3 @@ class CheckAuthentication extends StatelessWidget {
       return LoginPage();
   }
 }
-
-//
-//class Home extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text("Who are you ?"),
-//      ),
-//      body: Container(
-//        child: Column(
-//          crossAxisAlignment: CrossAxisAlignment.stretch,
-//          children: <Widget>[
-//            Expanded(
-//              child: Padding(
-//                padding: const EdgeInsets.all(10.0),
-//                child: RaisedButton.icon(
-//                  icon: Icon(Icons.person),
-//                  onPressed: (){},
-//                  label: Text("Customer"),
-//                ),
-//              ),
-//            ),
-//            Expanded(
-//              child: Padding(
-//                padding: const EdgeInsets.all(10.0),
-//                child: RaisedButton.icon(
-//                  icon: Icon(Icons.shopping_cart),
-//                  onPressed: (){},
-//                  label: Text("Merchant"),
-//                ),
-//              ),
-//            )
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-//}

@@ -24,10 +24,10 @@ class AuthenticationServices{
   }
 
   //Register using email and password
-  Future registerWithEmailAndPassword(String email, String password, String typeOfUser) async {
+  Future registerWithEmailAndPassword({String email, String password, String typeOfUser, String firstName, String lastName, String mobile,String address}) async {
     try{
       dynamic result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      DatabaseServices(uid: result.user.uid).registerUserData(typeOfUser: typeOfUser);
+      DatabaseServices(uid: result.user.uid).registerUserData(typeOfUser: typeOfUser,address: address,firstName: firstName,lastName: lastName,mobile: mobile);
       print(result);
       // Sending an array with the first element being a boolean value while the rest being the resultant data
       return [true,result];

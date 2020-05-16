@@ -7,9 +7,22 @@ class DatabaseServices{
 
   final CollectionReference databaseInstance = Firestore.instance.collection("data");
 
-  Future registerUserData({String typeOfUser}) async{
+  Future registerUserData({String typeOfUser,String firstName, String lastName, String address, String mobile}) async{
     return await databaseInstance.document(uid).setData({
-      "Type of User":typeOfUser
+      "Type of User":typeOfUser,
+      "First Name": firstName,
+      "Last Name": lastName,
+      "Address": address,
+      "Mobile Number": mobile
     });
   }
+
+  Future getTypeOfUser()async{
+    String result;
+    await databaseInstance.document(uid).get().then((documentSnapshot) =>
+      result = documentSnapshot.data["Type of User"].toString()
+    );
+    return result;
+  }
+
 }
