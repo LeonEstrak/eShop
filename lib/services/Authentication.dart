@@ -3,15 +3,15 @@ import 'package:shopwork/services/database.dart';
 
 class AuthenticationServices{
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //Stream which lets us know changes in condition of log of user
-  Stream<FirebaseUser> get user {
+  static Stream<FirebaseUser> get user {
     return _auth.onAuthStateChanged;
   }
 
   //Sign in using email and password
-  Future logInWithEmailAndPassword(String email, String password) async {
+  static Future logInWithEmailAndPassword(String email, String password) async {
     try{
       dynamic result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       print(result);
@@ -24,7 +24,7 @@ class AuthenticationServices{
   }
 
   //Register using email and password
-  Future registerWithEmailAndPassword({String email, String password, String typeOfUser, String firstName, String lastName, String mobile,String address}) async {
+  static Future registerWithEmailAndPassword({String email, String password, String typeOfUser, String firstName, String lastName, String mobile,String address}) async {
     try{
       dynamic result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       DatabaseServices(uid: result.user.uid).registerUserData(typeOfUser: typeOfUser,address: address,firstName: firstName,lastName: lastName,mobile: mobile);
@@ -38,7 +38,7 @@ class AuthenticationServices{
   }
 
   //Signing in anonymously
-  Future signInAnonymous()async{
+  static Future signInAnonymous()async{
     try{
       AuthResult result = await _auth.signInAnonymously();
       return result.user;
@@ -49,7 +49,7 @@ class AuthenticationServices{
   }
 
   //Sign out
-  Future signOut() async {
+  static Future signOut() async {
     try{
       return await _auth.signOut();
     }catch(e){

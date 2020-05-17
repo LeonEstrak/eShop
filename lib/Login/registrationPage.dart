@@ -112,15 +112,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Radio(
-                    value: Constant().customer,
+                    value: Constant.customer,
                     groupValue: typeOfUser,
                     onChanged: (String value){setState(() {typeOfUser=value;});},
-                  ), Text(Constant().customer),
+                  ), Text(Constant.customer),
                   Radio(
-                    value: Constant().merchant,
+                    value: Constant.merchant,
                     groupValue: typeOfUser,
                     onChanged: (String value){setState(() {typeOfUser=value;});},
-                  ),Text(Constant().merchant)
+                  ),Text(Constant.merchant)
                 ],
               ),
               SizedBox(
@@ -147,8 +147,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           child: Text("Register"),
                           onPressed: () async{
                             if(_formKey.currentState.validate()){
-                              //TODO:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Change here~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                              dynamic data = await AuthenticationServices().registerWithEmailAndPassword(
+                              dynamic data = await AuthenticationServices.registerWithEmailAndPassword(
                                   firstName: firstName,lastName: lastName,address: address,mobile: mobileNumber,email: email,password: password,typeOfUser: typeOfUser
                               );
                               bool userExist = data[0];

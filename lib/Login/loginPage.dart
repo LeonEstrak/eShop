@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Text("Login"),
                           onPressed: () async {
                             if(_formKey.currentState.validate()){
-                              dynamic data = await AuthenticationServices().logInWithEmailAndPassword(email, password);
+                              dynamic data = await AuthenticationServices.logInWithEmailAndPassword(email, password);
                               bool userExist = data[0];
                               dynamic userData = data[1];
                               if( userExist== true) {

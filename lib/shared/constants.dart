@@ -1,4 +1,4 @@
 class Constant{
-  String customer = "Customer";
-  String merchant = "Merchant";
+  static String customer = "Customer";
+  static String merchant = "Merchant";
 }
