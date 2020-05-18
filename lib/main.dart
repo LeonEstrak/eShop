@@ -21,6 +21,7 @@ class Application extends StatelessWidget {
       //This streamProvider.value is carried down to the whole widget tree and can be used wherever needed
       value: AuthenticationServices.user,
       child: MaterialApp(
+//        theme: ThemeData(brightness: Brightness.dark),
         initialRoute: '/',
         routes: {
           '/': (context) => CheckAuthentication(),
