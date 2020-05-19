@@ -10,9 +10,9 @@ addons:
       - libstdc++6
       - fonts-droid-fallback
 before_script:
-  - git clone https://github.com/flutter/flutter.git -b beta
-  - ./flutter/bin/flutter doctor
 install:
   - ./flutter/bin/flutter pub get
+  - git clone https://github.com/flutter/flutter.git -b beta
+  - ./flutter/bin/flutter doctor
 script:
   - ./flutter/bin/flutter build aot
