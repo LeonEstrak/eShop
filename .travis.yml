@@ -10,8 +10,8 @@ addons:
       - libstdc++6
 before_script:
 install:
-  - ./flutter/bin/flutter pub get
   - git clone https://github.com/flutter/flutter.git -b beta
   - ./flutter/bin/flutter doctor
+  - ./flutter/bin/flutter pub get
 script:
   - ./flutter/bin/flutter build aot
