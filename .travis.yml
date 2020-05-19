@@ -8,7 +8,6 @@ addons:
       - ubuntu-toolchain-r-test 
     packages:
       - libstdc++6
-      - fonts-droid-fallback
 before_script:
 install:
   - ./flutter/bin/flutter pub get
