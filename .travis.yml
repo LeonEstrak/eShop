@@ -15,6 +15,3 @@ before_script:
   - ./flutter/bin/flutter pug get
 script:
   - ./flutter/bin/flutter build aot
-cache:
-  directories:
-    - $HOME/.pub-cache
