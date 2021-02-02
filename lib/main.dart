@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'loginPage.dart';
+//TODO: The main needs to be reconfigured. First landing page shall be the login page.
 
 void main() => runApp(MaterialApp(
-  home: Home(),
-  routes: {
-    '/': (context) => Home(),
-  },
+  home: LoginPage(),
+//  routes: {
+//    '/': (context) => Home(),
+//  },
 ));
 
 class Home extends StatelessWidget {
