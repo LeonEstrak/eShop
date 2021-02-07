@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopwork/Authentication.dart';
-import 'package:shopwork/home.dart';
-import 'package:shopwork/loginPage.dart';
-import 'package:shopwork/registrationPage.dart';
+import 'package:shopwork/Login/loginPage.dart';
+import 'package:shopwork/services/Authentication.dart';
+import 'Login/registrationPage.dart';
+import 'home/home.dart';
+
+//TODO: Create a loading screen
+//TODO: Update the data base as soon as registration hits, name, mobile, address etc.
+//TODO: Create a proper Registration Form.
 
 void main() => runApp(Application());
 
@@ -15,17 +19,18 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  return StreamProvider.value(
-      value: AuthenticationServices().user ,
+    return StreamProvider.value(
+      //This streamProvider.value is carried down to the whole widget tree and can be used wherever needed
+      value: AuthenticationServices().user,
       child: MaterialApp(
-            initialRoute: '/',
-            routes: {
-              '/': (context) => CheckAuthentication(),
-              '/LoginPage': (context) => LoginPage(),
-              '/RegistrationPage': (context) => RegistrationPage()
-            },
-          ),
-        );
+        initialRoute: '/',
+        routes: {
+          '/': (context) => CheckAuthentication(),
+          '/LoginPage': (context) => LoginPage(),
+          '/RegistrationPage': (context) => RegistrationPage()
+        },
+      ),
+    );
   }
 }
 

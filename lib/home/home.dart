@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shopwork/Authentication.dart';
+import 'package:shopwork/services/Authentication.dart';
 
 class Home extends StatelessWidget {
   @override
