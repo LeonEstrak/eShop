@@ -8,15 +8,16 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  String email;
-
-  String password;
-
-  String confirmedPassword;
+  String firstName,
+      lastName,
+      mobileNumber,
+      address,
+      email,
+      password,
+      confirmedPassword,
+      typeOfUser;
 
   String errorMessage=' ';
-
-  String typeOfUser;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -28,10 +29,45 @@ class _RegistrationPageState extends State<RegistrationPage> {
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+//            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("$errorMessage"),
+              SizedBox(height: 5,),
+              TextFormField(
+                validator: (firstName) => firstName.isEmpty ? "Enter your First Name" : null,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: "First Name"),
+                onChanged: (String firstName) {
+                  this.firstName = firstName;
+                },
+              ),
+              SizedBox(height: 15),
+              TextFormField(
+                validator: (lastName) => lastName.isEmpty ? "Enter your Last Name" : null,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: "Last Name"),
+                onChanged: (String lastName) {
+                  this.lastName = lastName;
+                },
+              ),
+              SizedBox(height: 15),
+              TextFormField(
+                validator: (mobileNumber) => mobileNumber.length!=10 ? "Invalid mobile number" : null,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: "Mobile Number"),
+                onChanged: (String number) {
+                  this.mobileNumber = number;
+                },
+              ),
+              SizedBox(height: 15),
+              TextFormField(
+                validator: (address) => address.isEmpty ? "Enter your Address" : null,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: "Address"),
+                onChanged: (String address) {
+                  this.address = address;
+                },
+              ),
               SizedBox(height: 15),
               TextFormField(
                 //TODO:instead of isEmpty, check for validity of email [use Regular Exp.] [email.contains(new RegExp(r'...'))]
@@ -111,10 +147,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           child: Text("Register"),
                           onPressed: () async{
                             if(_formKey.currentState.validate()){
-                              dynamic data = await AuthenticationServices().registerWithEmailAndPassword(email, password,typeOfUser);
+                              //TODO:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Change here~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                              dynamic data = await AuthenticationServices().registerWithEmailAndPassword(
+                                  firstName: firstName,lastName: lastName,address: address,mobile: mobileNumber,email: email,password: password,typeOfUser: typeOfUser
+                              );
                               bool userExist = data[0];
                               dynamic userData = data[1];
-                              if( userExist== true) {
+                              if(userExist) {
                                 print(userData);
                                 print("Registered");
                                 setState(() {
@@ -132,10 +171,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           },
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 10,),
+              Text("$errorMessage"),
             ],
           ),
         ),
