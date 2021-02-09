@@ -11,22 +11,18 @@ class _MerchantPageHomeState extends State<MerchantPageHome> {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-        child: ListView(
+        child: Column(
           children: <Widget>[
             SizedBox(height: 20,),
-            Center(
-              child: Text(
-                "Shop",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
+            Text(
+              "Shop",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 20,),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width-30,
+            Expanded(
               child: GridView.count(
                 primary: false,
                 crossAxisCount: 2,
@@ -44,7 +40,6 @@ class _MerchantPageHomeState extends State<MerchantPageHome> {
                 ],
               ),
             ),
-            SizedBox(height: 20,)
           ],
         ),
       ),
