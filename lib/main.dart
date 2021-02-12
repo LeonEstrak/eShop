@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopwork/Login/loginPage.dart';
+import 'package:shopwork/home/merchantPages/AddCard.dart';
 import 'package:shopwork/services/Authentication.dart';
 import 'Login/registrationPage.dart';
 import 'home/home.dart';
@@ -25,6 +26,7 @@ class Application extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => CheckAuthentication(),
+          '/AddCard': (context) => AddCard(),
           '/LoginPage': (context) => LoginPage(),
           '/RegistrationPage': (context) => RegistrationPage()
         },

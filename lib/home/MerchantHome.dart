@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopwork/home/merchantPages/AddCard.dart';
 import 'package:shopwork/home/merchantPages/MerchantPageHome.dart';
 import 'package:shopwork/home/merchantPages/MerchantPageProfile.dart';
 
@@ -13,17 +14,29 @@ class _MerchantHomeState extends State<MerchantHome> {
 
   int selectedIndex = 0;
 
-  //TODO:Create a Floating Action Button center in the center which adds items to the list
+//  String itemName; int itemQty; double itemPrice;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text("Home",style: TextStyle(color: Colors.black87),),
-//        backgroundColor: Colors.white70,
-//      ),
       body: _buildPageView(),
       bottomNavigationBar: _buildBottomNavigationBar(),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: (){
+            setState(() {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+                  builder: (context) => AddCard(),
+              );
+//              Navigator.pushNamed(context, "/AddCard");
+              MerchantPageHome.setCounter(MerchantPageHome.getCounter()+1);
+            });
+          }
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

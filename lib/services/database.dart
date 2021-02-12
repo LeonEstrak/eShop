@@ -15,20 +15,43 @@ class DatabaseServices{
 
   StorageUploadTask _uploadTask;
 
-  void uploadImage({BuildContext context, File image}) async {
+  void uploadProfilePhoto({File image}) async {
+    //TODO: Error Handling while uploading the profile photo[Back End]
     String filePath = "images/ProfilePhoto/$uid";
     _uploadTask = _firebaseStorage.ref().child(filePath).putFile(image);
     print(_uploadTask);
   }
 
-  Future downloadImage()async{
+  Future downloadProfilePhoto()async{
     String filePath = "images/ProfilePhoto/$uid";
     try{
-
       String result= await _firebaseStorage.ref().child(filePath).getDownloadURL();
-      return [result,true];
+      return [true,result];
     }catch(e){
-      return ["invalid File Path",false];
+      return [false,"invalid File Path"];
+    }
+  }
+
+  void uploadItemPhoto({File image, String itemName}) {
+    itemName = itemName.toLowerCase();
+    String filePath = "images/$uid/items/$itemName";
+    try{
+      _uploadTask = _firebaseStorage.ref().child(filePath).putFile(image);
+//      return true;
+    }catch(e){
+      print(e.toString());
+//      return false;
+    }
+  }
+
+  Future downloadItemPhoto(String itemName)async{
+    itemName = itemName.toLowerCase();
+    String filePath = "images/$uid/items/$itemName";
+    try{
+      String result= await _firebaseStorage.ref().child(filePath).getDownloadURL();
+      return [true,result];
+    }catch(e){
+      return [false,"invalid File Path"];
     }
   }
 

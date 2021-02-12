@@ -7,6 +7,10 @@ import 'package:shopwork/shared/constants.dart';
 
 class Home extends StatelessWidget {
 
+  //Profile Photos Saved in Home widget so as to not having to download each time the Profile screen is Drawn.
+  static bool isProfileImageAvailable = false;
+  static Image profileImage = Image.asset("lib/shared/addimage.png",fit: BoxFit.cover,);
+
   @override
   Widget build(BuildContext context) {
     final FirebaseUser user = Provider.of<FirebaseUser>(context);
