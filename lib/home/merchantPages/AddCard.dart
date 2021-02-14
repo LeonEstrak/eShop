@@ -21,7 +21,7 @@ class _AddCardState extends State<AddCard> {
   bool isImageAvailable = false;
   String downloadURL;
   final formKey = GlobalKey<FormState>();
-  String itemName, itemQty, itemPrice, errorMessage = ' ';
+  String itemName, itemQty, itemPrice, errorMessage = ' ', uploadMessage = ' ';
   File image;
 
   Image defaultImage = Image.asset(
@@ -34,6 +34,7 @@ class _AddCardState extends State<AddCard> {
     File selected = await ImagePicker.pickImage(source: source);
     setState(() {
       image = selected;
+      Navigator.of(context, rootNavigator: true).pop('dialog');
       if (selected != null) isImageAvailable = true;
     });
   }
@@ -53,10 +54,14 @@ class _AddCardState extends State<AddCard> {
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
 
+    /// This controller is used to scroll to when keyboard overlaps over the textField
+    ScrollController _controller = ScrollController();
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
       padding: EdgeInsets.all(25),
       child: SingleChildScrollView(
+        controller: _controller,
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -70,7 +75,7 @@ class _AddCardState extends State<AddCard> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             // errorMessage==" "? Text("$errorMessage",style: TextStyle(color: Colors.primaries[0]),): SizedBox(height: 0,),
             Text(
@@ -78,7 +83,7 @@ class _AddCardState extends State<AddCard> {
               style: TextStyle(color: Colors.primaries[0]),
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             GestureDetector(
               onTap: () {
@@ -132,6 +137,12 @@ class _AddCardState extends State<AddCard> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    onTap: () {
+                      _controller.animateTo(
+                          _controller.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 10),
+                          curve: Curves.easeOut);
+                    },
                     validator: (value) => value.isEmpty ? "Enter Name" : null,
                     decoration:
                         InputDecoration(labelText: "Enter Name of Product"),
@@ -141,6 +152,12 @@ class _AddCardState extends State<AddCard> {
                     height: 10,
                   ),
                   TextFormField(
+                    onTap: () {
+                      _controller.animateTo(
+                          _controller.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 10),
+                          curve: Curves.easeOut);
+                    },
                     validator: (value) =>
                         value.isEmpty ? "Enter Quantity" : null,
                     decoration:
@@ -151,6 +168,12 @@ class _AddCardState extends State<AddCard> {
                     height: 10,
                   ),
                   TextFormField(
+                    onTap: () {
+                      _controller.animateTo(
+                          _controller.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 10),
+                          curve: Curves.easeOut);
+                    },
                     validator: (value) => value.isEmpty ? "Enter Price" : null,
                     decoration:
                         InputDecoration(labelText: "Enter Price of Product"),
@@ -159,6 +182,7 @@ class _AddCardState extends State<AddCard> {
                   SizedBox(
                     height: 20,
                   ),
+                  Text(uploadMessage),
                   Center(
                     child: RaisedButton(
                         child: Text("Submit"),
@@ -170,17 +194,28 @@ class _AddCardState extends State<AddCard> {
                           }
                           if (formKey.currentState.validate() &&
                               isImageAvailable) {
-                            //TODO: Data of the item to be saved in the database(JSON). Only image is being stored right now.
                             setState(() {
+                              /// Pressing the submit button uploads the photo and item info to database
                               DatabaseServices(uid: user.uid).uploadItemPhoto(
                                   itemName: itemName, image: image);
-                              Navigator.of(context, rootNavigator: true).pop();
+                              DatabaseServices(uid: user.uid)
+                                  .merchantAddItemData(
+                                      itemName: itemName,
+                                      itemQty: itemQty,
+                                      itemPrice: itemPrice);
+                              uploadMessage =
+                                  "Please Wait... Data being uploaded";
+                              Navigator.of(context, rootNavigator: true)
+                                  .pop('dialog');
                             });
                           }
                         }),
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).viewInsets.bottom,
             )
           ],
         ),

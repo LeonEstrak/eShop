@@ -120,15 +120,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Radio(
-                    value: Constant.customer,
+                    value: Constant.customer.toString(),
                     groupValue: typeOfUser,
                     onChanged: (String value){setState(() {typeOfUser=value;});},
-                  ), Text(Constant.customer),
+                  ), Text(Constant.customer.toString()),
                   Radio(
-                    value: Constant.merchant,
+                    value: Constant.merchant.toString(),
                     groupValue: typeOfUser,
                     onChanged: (String value){setState(() {typeOfUser=value;});},
-                  ),Text(Constant.merchant)
+                  ),Text(Constant.merchant.toString())
                 ],
               ),
               SizedBox(
