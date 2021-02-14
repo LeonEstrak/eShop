@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shopwork/services/Authentication.dart';
 import 'package:shopwork/shared/constants.dart';
 
+/// ### Registration Page
+/// The TextFormFields are all wrapped with a single Form field idientified by a Global Form key.
+/// If Registration is successful the Navigator is popped back to the Home where CheckAuthentication
+/// widget runs and Stream value is used to login to the main app.
+/// If unsuccessful then error is displayed in the screen using the [errorMessage] variable.
+
 class RegistrationPage extends StatefulWidget {
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
@@ -17,6 +23,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       confirmedPassword,
       typeOfUser;
 
+///[errorMessage] is generally hidden since the Text is empty. But if data entered is deemed 
+///invalid from the Firebase then the error message is changed error is displayed.
   String errorMessage=' ';
 
   final _formKey = GlobalKey<FormState>();
@@ -175,7 +183,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
               ),
               SizedBox(height: 10,),
-              Text("$errorMessage"),
+              Text("$errorMessage",style: TextStyle(color: Colors.primaries[0]),),
             ],
           ),
         ),

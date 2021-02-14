@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shopwork/services/Authentication.dart';
 
+/// ### Login Page
+/// Form Widget is used to wrap the TextFormFields to validate the info that has been input using the validator key.
+/// If "form-valid" email and password is used to log-in to the app. The app uses the navigator to pop to the root route, 
+/// i.e the [CheckAuthentication] Widget present in Home.dart file which checks the authorisation of the email and password 
+/// from the Firebase Authentication Server.
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -11,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
 
   String password;
 
+///[errorMessage] is generally hidden since the Text is empty. But if data entered is deemed 
+///invalid from the Firebase then the error message is changed error is displayed.
   String errorMessage=" ";
 
   final _formKey = GlobalKey<FormState>();
@@ -28,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("$errorMessage"),
+              Text("$errorMessage",style: TextStyle(color: Colors.primaries[0]),),
               SizedBox(height: 15),
               TextFormField(
                 //TODO:instead of isEmpty, check for validity of email [use Regular Exp.]

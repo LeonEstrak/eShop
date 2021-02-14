@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 
 class DatabaseServices{
 
@@ -15,6 +14,7 @@ class DatabaseServices{
 
   StorageUploadTask _uploadTask;
 
+///Uploads the profile image to `"images/ProfilePhoto/$uid"` in the Firebase Storage.
   void uploadProfilePhoto({File image}) async {
     //TODO: Error Handling while uploading the profile photo[Back End]
     String filePath = "images/ProfilePhoto/$uid";
@@ -22,6 +22,11 @@ class DatabaseServices{
     print(_uploadTask);
   }
 
+
+/// ### @output: Future<bool,String>
+///Downloads the profile image from `"images/ProfilePhoto/$uid"` in the Firebase Storage.
+/// 0th position is a bool which tells if the image was found or not.
+/// 1st position is a String which is the downloadURL when 0th pos is true.
   Future downloadProfilePhoto()async{
     String filePath = "images/ProfilePhoto/$uid";
     try{
@@ -72,5 +77,4 @@ class DatabaseServices{
     );
     return result;
   }
-
 }

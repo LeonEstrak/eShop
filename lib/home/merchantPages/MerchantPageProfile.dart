@@ -19,12 +19,14 @@ class MerchantPageProfile extends StatefulWidget {
 
 class _MerchantPageProfileState extends State<MerchantPageProfile> {
 
-  //~~~~~~~~~~~~~~~~~All the Profile Pic related data resides in the HOME widget ~~~~~~~~~~~~~~~
-//  File image;
-//  Image profileImage = Image.asset("lib/shared/addimage.png",fit: BoxFit.cover,);
-//  bool isImageAvailable=false;
+  //~~~~~~~~~~~~~~~~~All the Profile Pic related data/variables resides in the HOME widget ~~~~~~~~~~~~~~~
   String downloadURL;
 
+  /// ### @input: ImageSource source, FirebaseUser user
+  /// ### @output: Future<void>
+  ///Choose an image either from the gallery or click one from the Camera depending on the ImageSourcce
+  ///specified while function is called. FirebaseUser is required as parameter since DatabaseServices are 
+  ///being used and intialization of a DatabaseService instance requires the UID of user.
   Future pickImage(ImageSource source,FirebaseUser user)async{
     File selected = await ImagePicker.pickImage(source: source);
     setState(() {
@@ -34,8 +36,12 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
     });
   }
 
+  /// ### @input: FirebaseUser user
+  /// ### @output: Future<void>
+  /// Image is retrieved using the DatabaseServices instance from the Firebase Storage.
+  /// Retrieved image is stored in the Home widget variable.
   Future getImage(FirebaseUser user)async{
-    //returns an array where the 0th position is the actual link and second part is whether the link is valid or not
+  ///[url] is an array of type `[bool,String]`  
     dynamic url = await DatabaseServices(uid:user.uid).downloadProfilePhoto();
     setState(() {
       Home.isProfileImageAvailable=url[0];

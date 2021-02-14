@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// ##Merchant Page Home
+/// The 0th page or the default page of the [PageView] implemented on the Merchant Home
+/// TODO: Documentation to be updated
+
 class MerchantPageHome extends StatefulWidget {
 
   static void setCounter(int value){
