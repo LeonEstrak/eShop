@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopwork/Login/loginPage.dart';
 import 'package:shopwork/home/merchantPages/AddCard.dart';
+import 'package:shopwork/home/merchantPages/ItemInfoCard.dart';
 import 'package:shopwork/services/Authentication.dart';
 import 'Login/registrationPage.dart';
 import 'home/home.dart';
@@ -39,6 +40,7 @@ class Application extends StatelessWidget {
         routes: {
           '/': (context) => CheckAuthentication(),
           '/AddCard': (context) => AddCard(),
+          '/ItemInfoCard':(context)=> ItemInfoCard(),
           '/LoginPage': (context) => LoginPage(),
           '/RegistrationPage': (context) => RegistrationPage()
         },

@@ -11,15 +11,6 @@ import 'package:shopwork/shared/constants.dart';
 /// routed to the Merchant section or the Customer section. Since a FutureBuilder is used, until the
 /// type of user is confirmed from the database, a Circular Progress Indicator rotates on the screen
 class Home extends StatelessWidget {
-  ///Profile Photos Saved in Home widget so as to not having to download each time the Profile screen is Drawn.
-  static bool isProfileImageAvailable = false;
-  static Image profileImage = Image.asset(
-    "lib/shared/addimage.png",
-    fit: BoxFit.cover,
-  );
-
-  static List<Widget> widgetList;
-
   @override
   Widget build(BuildContext context) {
     final FirebaseUser user = Provider.of<FirebaseUser>(context);

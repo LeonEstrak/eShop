@@ -6,19 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:shopwork/home/home.dart';
 import 'package:shopwork/services/Authentication.dart';
 import 'package:shopwork/services/database.dart';
+import 'package:shopwork/shared/constants.dart';
 
 //TODO: Change profile name of every individual user. Add more profile options.
 
 class MerchantPageProfile extends StatefulWidget {
+  static bool isProfileImageAvailable = false;
+  static Image profileImage = Image.asset(
+    "lib/shared/addimage.png",
+    fit: BoxFit.cover,
+  );
+
   @override
   _MerchantPageProfileState createState() => _MerchantPageProfileState();
 }
 
 class _MerchantPageProfileState extends State<MerchantPageProfile> {
-  //~~~~~~~~~~~~~~~~~All the Profile Pic related data/variables resides in the HOME widget ~~~~~~~~~~~~~~~
+  //~~~~~~~~~~~~~~~~~The Profile Pic related data/variables resides in the MerchantPageProfile class ~~~~~~~~~~~~~~~
   String downloadURL;
 
   /// ### @input: ImageSource source, FirebaseUser user
@@ -29,7 +35,7 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   Future pickImage(ImageSource source, FirebaseUser user) async {
     File selected = await ImagePicker.pickImage(source: source);
     setState(() {
-      Home.profileImage = Image.file(
+      MerchantPageProfile.profileImage = Image.file(
         selected,
         fit: BoxFit.cover,
       );
@@ -41,16 +47,16 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   /// ### @input: FirebaseUser user
   /// ### @output: Future<void>
   /// Image is retrieved using the DatabaseServices instance from the Firebase Storage.
-  /// Retrieved image is stored in the Home widget variable.
+  /// Retrieved image is stored in the MerchantPageProfile static widget variable.
   Future getImage(FirebaseUser user) async {
     ///[url] is an array of type `[bool,String]`
     dynamic url = await DatabaseServices(uid: user.uid).downloadProfilePhoto();
     if (!mounted) return;
     setState(() {
-      Home.isProfileImageAvailable = url[0];
+      MerchantPageProfile.isProfileImageAvailable = url[0];
       downloadURL = url[1];
-      if (Home.isProfileImageAvailable)
-        Home.profileImage = Image.network(
+      if (MerchantPageProfile.isProfileImageAvailable)
+        MerchantPageProfile.profileImage = Image.network(
           downloadURL,
           fit: BoxFit.cover,
         );
@@ -66,7 +72,7 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of(context);
 
-    if (!Home.isProfileImageAvailable) getImage(user);
+    if (!MerchantPageProfile.isProfileImageAvailable) getImage(user);
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -117,7 +123,7 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
                 height: 150,
                 width: 150,
                 clipBehavior: Clip.hardEdge,
-                child: Home.profileImage,
+                child: MerchantPageProfile.profileImage,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     color: Colors.black12),
@@ -126,9 +132,20 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
             SizedBox(
               height: 25,
             ),
-            Text(
-              "Aniket Chakraborty",
-              style: TextStyle(fontSize: 20),
+            FutureBuilder(
+              future: DatabaseServices(uid: user.uid)
+                  .getUserData(Constant.firstName),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    snapshot.data.toUpperCase(),
+                    style: TextStyle(fontSize: 20),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error);
+                }
+                return CircularProgressIndicator();
+              },
             ),
             Divider(
               height: 50,

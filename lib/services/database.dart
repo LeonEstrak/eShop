@@ -14,7 +14,7 @@ class DatabaseServices {
       Firestore.instance.collection("items");
 
   static final FirebaseStorage _firebaseStorage =
-      FirebaseStorage(storageBucket: "gs://shop-work-12bc7.appspot.com/");
+      FirebaseStorage(storageBucket: "gs://shop-work-2f412.appspot.com");
 
   static StorageUploadTask uploadTask;
 
@@ -39,11 +39,7 @@ class DatabaseServices {
           await _firebaseStorage.ref().child(filePath).getDownloadURL();
       return [true, result];
     } catch (e) {
-      String defaultResult = await _firebaseStorage
-          .ref()
-          .child("images/ProfilePhoto/addimage.png")
-          .getDownloadURL();
-      return [false, defaultResult];
+      return [false, "none"];
     }
   }
 
@@ -68,9 +64,9 @@ class DatabaseServices {
   /// 0th position is a bool which tells if the image was found or not.
   /// 1st position is a String which is the downloadURL when 0th pos is true.
   Future<List> downloadItemPhoto(String itemName) async {
+    itemName = itemName.toLowerCase();
+    String filePath = "images/$uid/items/$itemName";
     try {
-      itemName = itemName.toLowerCase();
-      String filePath = "images/$uid/items/$itemName";
       // await _uploadTask.isComplete;
       String result =
           await _firebaseStorage.ref().child(filePath).getDownloadURL();
@@ -78,12 +74,17 @@ class DatabaseServices {
       return [true, result];
     } catch (e) {
       print(e.toString());
-      String defaultResult = await _firebaseStorage
-          .ref()
-          .child("images/ProfilePhoto/addimage.png")
-          .getDownloadURL();
-      print(defaultResult);
-      return [false, defaultResult];
+      try {
+        ///Nested TRY-CATCH, retries to fetch data after 5 seconds if data not found.
+        await Future.delayed(Duration(seconds: 5), () {});
+        String result =
+            await _firebaseStorage.ref().child(filePath).getDownloadURL();
+        print(result);
+        return [true, result];
+      } catch (e) {
+        print(e.toString());
+        return [false, "lib/shared/addimage.png"];
+      }
     }
   }
 
@@ -150,7 +151,7 @@ class DatabaseServices {
     Map<String, String> result;
     try {
       await itemsDatabaseInstance.document(uid).get().then((documentSnapshot) {
-        List<Map<String, String>> tempArray =
+        List<dynamic> tempArray =
             documentSnapshot.data[Constant.items.toString()];
         for (var item in tempArray) {
           if (item[Constant.itemName.toString()] == itemName.toLowerCase()) {

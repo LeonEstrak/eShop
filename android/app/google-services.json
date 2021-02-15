@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "985035329094",
-    "firebase_url": "https://shop-work-12bc7.firebaseio.com",
-    "project_id": "shop-work-12bc7",
-    "storage_bucket": "shop-work-12bc7.appspot.com"
+    "project_number": "1062457467075",
+    "firebase_url": "https://shop-work-2f412.firebaseio.com",
+    "project_id": "shop-work-2f412",
+    "storage_bucket": "shop-work-2f412.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:985035329094:android:84f5c7ce808fc56abd4447",
+        "mobilesdk_app_id": "1:1062457467075:android:ccdc28494ba79ac8a2c276",
         "android_client_info": {
           "package_name": "os.project.shopwork"
         }
       },
       "oauth_client": [
         {
-          "client_id": "985035329094-v1l7faiatka7rv2s1rc412tal9t22m6i.apps.googleusercontent.com",
+          "client_id": "1062457467075-rr6cure8quao29e6emhe2a4tokin5tjf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDSirVoR_JewvTVPKJ28bS2auj0c_ANOUU"
+          "current_key": "AIzaSyDZap-Lxj3r2XT8LacjbvIEfsXI_ODyIE0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "985035329094-v1l7faiatka7rv2s1rc412tal9t22m6i.apps.googleusercontent.com",
+              "client_id": "1062457467075-rr6cure8quao29e6emhe2a4tokin5tjf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

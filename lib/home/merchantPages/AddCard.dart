@@ -19,7 +19,6 @@ class AddCard extends StatefulWidget {
 
 class _AddCardState extends State<AddCard> {
   bool isImageAvailable = false;
-  String downloadURL;
   final formKey = GlobalKey<FormState>();
   String itemName, itemQty, itemPrice, errorMessage = ' ', uploadMessage = ' ';
   File image;
@@ -36,17 +35,6 @@ class _AddCardState extends State<AddCard> {
       image = selected;
       Navigator.of(context, rootNavigator: true).pop('dialog');
       if (selected != null) isImageAvailable = true;
-    });
-  }
-
-  //Not needed right now here....
-  Future getImage(FirebaseUser user) async {
-    //returns an array where the 0th position is the actual link and second part is whether the link is valid or not
-    dynamic url =
-        await DatabaseServices(uid: user.uid).downloadItemPhoto(itemName);
-    setState(() {
-      isImageAvailable = url[0];
-      downloadURL = url[1];
     });
   }
 
