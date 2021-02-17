@@ -95,11 +95,21 @@ class _ItemInfoCardState extends State<ItemInfoCard> {
                     label: Text("Edit")),
                 FlatButton.icon(
                     onPressed: () {
+                      ///TODO: Ask for confirmation before deletion of item
+                      DatabaseServices(uid: user.uid).deleteItem(
+                          itemName: name, itemPrice: price, itemQty: qty);
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.arrow_back),
-                    label: Text("Back"))
-              ])
+                    icon: Icon(Icons.delete),
+                    label: Text("Delete"))
+              ]),
+              SizedBox(height: 30),
+              FlatButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back),
+                  label: Text("Back"))
             ],
           ),
         ),

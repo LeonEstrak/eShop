@@ -45,7 +45,7 @@ class DatabaseServices {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Item Photo VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  ///Uploads the profile image to `"images/$uid/items/$itemName"` in the Firebase Storage.
+  ///Uploads the item image to `"images/$uid/items/$itemName"` in the Firebase Storage.
   void uploadItemPhoto({File image, String itemName}) {
     itemName = itemName.toLowerCase();
     String filePath = "images/$uid/items/$itemName";
@@ -56,6 +56,17 @@ class DatabaseServices {
     } catch (e) {
       print(e.toString());
       //      return false;
+    }
+  }
+
+  ///Deletes the item image from `"images/$uid/items/$itemName"` in the firebase Storage
+  void deleteItemPhoto({String itemName}) {
+    itemName = itemName.toLowerCase();
+    String filePath = "images/$uid/items/$itemName";
+    try {
+      _firebaseStorage.ref().child(filePath).delete();
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -104,15 +115,44 @@ class DatabaseServices {
   Future<void> merchantAddItemData(
       {String itemName, String itemQty, String itemPrice}) async {
     List itemMap = await allItems;
-    itemMap.add({
-      Constant.itemName.toString(): itemName.toLowerCase(),
-      Constant.itemQty.toString(): itemQty,
-      Constant.itemPrice.toString(): itemPrice,
-    });
+    if (itemMap != null) {
+      itemMap.add({
+        Constant.itemName.toString(): itemName.toLowerCase(),
+        Constant.itemQty.toString(): itemQty,
+        Constant.itemPrice.toString(): itemPrice,
+      });
+    } else {
+      itemMap = [
+        {
+          Constant.itemName.toString(): itemName.toLowerCase(),
+          Constant.itemQty.toString(): itemQty,
+          Constant.itemPrice.toString(): itemPrice,
+        }
+      ];
+    }
     print(itemMap);
     return await itemsDatabaseInstance
         .document(uid)
         .setData({Constant.items.toString(): itemMap});
+  }
+
+  /// Data list is retrieved from the server
+  /// Function Takes the itemData as input and searches for it in the data list
+  /// when found it removes it from the list and writes the modified list onto
+  /// the server.
+  Future<void> deleteItem(
+      {String itemName, String itemQty, String itemPrice}) async {
+    List itemMap = await allItems;
+    List newItemMap;
+    for (var item in itemMap) {
+      if (item[Constant.itemName.toString()] != itemName) {
+        newItemMap.add(item);
+      }
+    }
+    deleteItemPhoto(itemName: itemName);
+    return await itemsDatabaseInstance
+        .document(uid)
+        .setData({Constant.items.toString(): newItemMap});
   }
 
   /// Returns a List of Key:Value pair.

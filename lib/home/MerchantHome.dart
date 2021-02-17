@@ -44,8 +44,6 @@ class _MerchantHomeState extends State<MerchantHome> {
                         BorderRadius.vertical(top: Radius.circular(30))),
                 builder: (context) => AddCard(),
               );
-//              Navigator.pushNamed(context, "/AddCard");
-              // MerchantPageHome.setCounter(MerchantPageHome.getCounter()+1);
             });
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -60,7 +58,7 @@ class _MerchantHomeState extends State<MerchantHome> {
           title: Text("Home"),
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person), title: Text("Profile"))
+            icon: Icon(Icons.person), title: Text("Profile")),
       ],
       onTap: (index) {
         setState(() {

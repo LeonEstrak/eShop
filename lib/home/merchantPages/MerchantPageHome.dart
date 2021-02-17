@@ -7,7 +7,10 @@ import 'package:shopwork/shared/constants.dart';
 
 /// ##Merchant Page Home
 /// The 0th page or the default page of the [PageView] implemented on the Merchant Home
-/// TODO: Documentation to be updated
+///
+/// A `imageMap` variable is used to save the downloaded images so that everytime the
+/// viewport is changed the StreamBuilder does not have to download the images everytime.
+/// This saves our limited firebase bandwidth.
 
 class MerchantPageHome extends StatefulWidget {
   ///Saves all the data of the home page widgets i.e Widget List cache
@@ -55,6 +58,14 @@ class _MerchantPageHomeState extends State<MerchantPageHome> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     List _allItems = snapshot.data[Constant.items.toString()];
+
+                    ///_allitems.length called on null results in error
+                    var itemsLength;
+                    if (_allItems == null)
+                      itemsLength = 0;
+                    else
+                      itemsLength = _allItems.length;
+
                     return RefreshIndicator(
                       key: _refreshIndicator,
                       onRefresh: () {
@@ -73,7 +84,7 @@ class _MerchantPageHomeState extends State<MerchantPageHome> {
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 15,
-                        children: List.generate(_allItems.length, (index) {
+                        children: List.generate(itemsLength, (index) {
                           return buildCard(
                             context: context,
                             user: user,
@@ -112,7 +123,6 @@ Widget buildCard(
   dynamic result = DatabaseServices(uid: user.uid).downloadItemPhoto(name);
 
   /// Looks up if the image is present in the cache, if not, download it from network.
-  /// TODO: Create a new FILE and refactor to make the function shared
   Widget imageDownloader() {
     Image image;
     if (MerchantPageHome.imageMap[name] == null) {
@@ -164,7 +174,7 @@ Widget buildCard(
               clipBehavior: Clip.hardEdge,
               child: imageDownloader(),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(75),
+                  borderRadius: BorderRadius.circular(80),
                   color: Colors.black12),
             ),
             Text("Name: $name"),
@@ -185,29 +195,3 @@ Widget buildCard(
     ),
   );
 }
-
-// class BuildCard extends StatefulWidget {
-//   String name;
-//   String qty;
-//   String price;
-//   BuildCard({this.name, this.price, this.qty, Key key}) : super(key: key);
-
-//   @override
-//   _BuildCardState createState() =>
-//       _BuildCardState(name: name, price: price, qty: qty);
-// }
-
-// class _BuildCardState extends State<BuildCard> {
-//   String name;
-//   String qty;
-//   String price;
-
-//   _BuildCardState({
-//     this.name,
-//     this.price,
-//     this.qty,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {}
-// }
