@@ -136,6 +136,31 @@ class DatabaseServices {
         .setData({Constant.items.toString(): itemMap});
   }
 
+  /// Takes the item details as input and then finds the current item name in the
+  /// item list. If then name of the iterable item object matches then it is modified, else
+  /// if does not match then it is written as it is to the new items list.
+  Future<void> editItem(
+      {String currentItemName,
+      String modifiedItemName,
+      String modifiedItemPrice,
+      String modifiedItemQty}) async {
+    List itemMap = await allItems;
+    List newItemMap = [];
+    for (var item in itemMap) {
+      if (item[Constant.itemName.toString()] == currentItemName) {
+        item[Constant.itemName.toString()] = modifiedItemName;
+        item[Constant.itemQty.toString()] = modifiedItemQty;
+        item[Constant.itemPrice.toString()] = modifiedItemPrice;
+        newItemMap.add(item);
+      } else {
+        newItemMap.add(item);
+      }
+    }
+    return await itemsDatabaseInstance
+        .document(uid)
+        .setData({Constant.items.toString(): newItemMap});
+  }
+
   /// Data list is retrieved from the server
   /// Function Takes the itemData as input and searches for it in the data list
   /// when found it removes it from the list and writes the modified list onto

@@ -36,19 +36,25 @@ class _MerchantPageHomeState extends State<MerchantPageHome> {
             SizedBox(
               height: 20,
             ),
-            Text(
-              "Shop",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Row(
+            Stack(
               children: [
-                SizedBox(
-                  height: 20,
+                IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () => Scaffold.of(context).openDrawer()),
+                Center(
+                  heightFactor: 1.35,
+                  child: Text(
+                    "Shop",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20,
             ),
             Expanded(
               child: StreamBuilder(

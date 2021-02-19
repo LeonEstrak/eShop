@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopwork/home/merchantPages/AddCard.dart';
 import 'package:shopwork/home/merchantPages/MerchantPageHome.dart';
 import 'package:shopwork/home/merchantPages/MerchantPageProfile.dart';
+import 'package:shopwork/home/merchantPages/Orders.dart';
 
 ///
 /// ## Merchant Home
@@ -30,6 +31,23 @@ class _MerchantHomeState extends State<MerchantHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   iconTheme: IconThemeData(color: Colors.black87),
+      //   backgroundColor: Colors.transparent,
+      //   centerTitle: true,
+      //   title: Text(
+      //     "Shop",
+      //     style: TextStyle(
+      //       fontSize: 30,
+      //       color: Colors.black87,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
+      drawer: Drawer(
+        child: MerchantPageProfile(),
+      ),
       body: _buildPageView(),
       bottomNavigationBar: _buildBottomNavigationBar(),
       floatingActionButton: FloatingActionButton(
@@ -58,7 +76,7 @@ class _MerchantHomeState extends State<MerchantHome> {
           title: Text("Home"),
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person), title: Text("Profile")),
+            icon: Icon(Icons.shopping_cart), title: Text("Orders")),
       ],
       onTap: (index) {
         setState(() {
@@ -79,7 +97,7 @@ class _MerchantHomeState extends State<MerchantHome> {
           selectedIndex = index;
         });
       },
-      children: <Widget>[MerchantPageHome(), MerchantPageProfile()],
+      children: <Widget>[MerchantPageHome(), Orders()],
     );
   }
 }

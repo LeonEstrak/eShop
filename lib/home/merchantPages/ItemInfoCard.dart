@@ -51,6 +51,8 @@ class _ItemInfoCardState extends State<ItemInfoCard> {
                 SizedBox(
                   height: 40,
                 ),
+
+                ///TODO:Wrap this container with a GestureDetector so when tapped, the image is viewed in fullscreen and also editable.
                 Container(
                   child: FutureBuilder(
                     future: result,
@@ -91,10 +93,23 @@ class _ItemInfoCardState extends State<ItemInfoCard> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      FlatButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.edit),
-                          label: Text("Edit")),
+                      // FlatButton.icon(
+                      //     onPressed: () {
+                      //       showModalBottomSheet(
+                      //         context: context,
+                      //         isScrollControlled: true,
+                      //         shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.vertical(
+                      //                 top: Radius.circular(30))),
+                      //         builder: (context) => EditCard(
+                      //           name: name,
+                      //           price: price,
+                      //           qty: qty,
+                      //         ),
+                      //       );
+                      //     },
+                      //     icon: Icon(Icons.edit),
+                      //     label: Text("Edit")),
                       FlatButton.icon(
                           onPressed: () {
                             showDialog(
