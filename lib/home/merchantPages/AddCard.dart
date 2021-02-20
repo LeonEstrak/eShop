@@ -173,7 +173,14 @@ class _AddCardState extends State<AddCard> {
                   Text(uploadMessage),
                   Center(
                     child: RaisedButton(
-                        child: Text("Submit"),
+                        elevation: 7.0,
+                        color: Colors.green,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(fontSize: 15),
+                        ),
                         onPressed: () {
                           if (!isImageAvailable) {
                             setState(() {

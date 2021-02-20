@@ -10,7 +10,7 @@ import 'package:shopwork/services/Authentication.dart';
 import 'package:shopwork/services/database.dart';
 import 'package:shopwork/shared/constants.dart';
 
-//TODO: Change profile name of every individual user. Add more profile options.
+//TODO: Add more profile options.
 
 class MerchantPageProfile extends StatefulWidget {
   static bool isProfileImageAvailable = false;
@@ -145,6 +145,83 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
             Divider(
               height: 50,
             ),
+            FlatButton.icon(
+                onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      String shopName;
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Container(
+                            height: 300,
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                FutureBuilder(
+                                    future: DatabaseServices(uid: user.uid)
+                                        .shopName,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Column(
+                                          children: <Widget>[
+                                            Text(
+                                              "Current Shop Name:",
+                                              style: TextStyle(
+                                                  color: Colors.black38,
+                                                  fontSize: 20),
+                                            ),
+                                            Text(
+                                              " ${snapshot.data}",
+                                              style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize: 30),
+                                            )
+                                          ],
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text(
+                                            "Shop Name: ${snapshot.error}");
+                                      }
+                                      return CircularProgressIndicator();
+                                    }),
+                                SizedBox(height: 30),
+                                TextField(
+                                  decoration: InputDecoration(
+                                      labelText: "Enter New Shop Name",
+                                      labelStyle: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey),
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.green))),
+                                  onChanged: (value) {
+                                    shopName = value;
+                                  },
+                                ),
+                                SizedBox(height: 20),
+                                FlatButton(
+                                  color: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  onPressed: () {
+                                    if (shopName == null ||
+                                        shopName.length == 0) return;
+                                    DatabaseServices(uid: user.uid)
+                                        .setShopName(shopName);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Submit"),
+                                )
+                              ],
+                            )),
+                      );
+                    }),
+                icon: Icon(Icons.shopping_basket),
+                label: Text("Shop Name")),
             FlatButton.icon(
                 onPressed: () {
                   AuthenticationServices.signOut();
