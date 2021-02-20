@@ -117,7 +117,7 @@ class DatabaseServices {
     List itemMap = await allItems;
     if (itemMap != null) {
       itemMap.add({
-        Constant.itemName.toString(): itemName.toLowerCase(),
+        Constant.itemName.toString(): itemName,
         Constant.itemQty.toString(): itemQty,
         Constant.itemPrice.toString(): itemPrice,
         Constant.uid.toString(): uid
@@ -125,7 +125,7 @@ class DatabaseServices {
     } else {
       itemMap = [
         {
-          Constant.itemName.toString(): itemName.toLowerCase(),
+          Constant.itemName.toString(): itemName,
           Constant.itemQty.toString(): itemQty,
           Constant.itemPrice.toString(): itemPrice,
           Constant.uid.toString(): uid
@@ -135,7 +135,7 @@ class DatabaseServices {
     print(itemMap);
     return await itemsDatabaseInstance
         .document(uid)
-        .setData({Constant.items.toString(): itemMap});
+        .updateData({Constant.items.toString(): itemMap});
   }
 
   /// Takes the item details as input and then finds the current item name in the
@@ -160,7 +160,7 @@ class DatabaseServices {
     }
     return await itemsDatabaseInstance
         .document(uid)
-        .setData({Constant.items.toString(): newItemMap});
+        .updateData({Constant.items.toString(): newItemMap});
   }
 
   /// Data list is retrieved from the server
@@ -170,7 +170,7 @@ class DatabaseServices {
   Future<void> deleteItem(
       {String itemName, String itemQty, String itemPrice}) async {
     List itemMap = await allItems;
-    List newItemMap;
+    List newItemMap = [];
     for (var item in itemMap) {
       if (item[Constant.itemName.toString()] != itemName) {
         newItemMap.add(item);
@@ -179,7 +179,7 @@ class DatabaseServices {
     deleteItemPhoto(itemName: itemName);
     return await itemsDatabaseInstance
         .document(uid)
-        .setData({Constant.items.toString(): newItemMap});
+        .updateData({Constant.items.toString(): newItemMap});
   }
 
   /// Returns a List of Key:Value pair.
@@ -256,6 +256,21 @@ class DatabaseServices {
       Constant.address.toString(): address,
       Constant.mobile.toString(): mobile,
     });
+  }
+
+  ///Returns the Shop Name
+  Future<String> get shopName {
+    return itemsDatabaseInstance
+        .document(uid)
+        .get()
+        .then((value) => value[Constant.shopName.toString()]);
+  }
+
+  /// Changes the Shop name to the newName
+  void setShopName(String newName) {
+    itemsDatabaseInstance
+        .document(uid)
+        .updateData({Constant.shopName.toString(): newName});
   }
 
   /// ### @input: Constant Class

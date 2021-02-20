@@ -1,20 +1,20 @@
-language: dart
-os:
-  - linux
-sudo: false
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test 
-    packages:
-      - libstdc++6
-before_script:
-install:
-  - git clone https://github.com/flutter/flutter.git -b beta
-  - ./flutter/bin/flutter doctor
-  - ./flutter/bin/flutter pub get
-script:
-  - ./flutter/bin/flutter build aot
-cache:
-  directories:
-    - $HOME/.pub-cache
+# language: dart
+# os:
+#   - linux
+# sudo: false
+# addons:
+#   apt:
+#     sources:
+#       - ubuntu-toolchain-r-test
+#     packages:
+#       - libstdc++6
+# before_script:
+# install:
+#   - git clone https://github.com/flutter/flutter.git -b stable --depth 1
+#   - ./flutter/bin/flutter doctor
+#   - ./flutter/bin/flutter pub get
+# script:
+#   - ./flutter/bin/flutter build apk
+# cache:
+#   directories:
+#     - $HOME/.pub-cache
