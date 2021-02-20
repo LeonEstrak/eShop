@@ -64,11 +64,6 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of(context);
 

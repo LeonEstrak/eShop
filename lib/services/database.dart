@@ -120,6 +120,7 @@ class DatabaseServices {
         Constant.itemName.toString(): itemName.toLowerCase(),
         Constant.itemQty.toString(): itemQty,
         Constant.itemPrice.toString(): itemPrice,
+        Constant.uid.toString(): uid
       });
     } else {
       itemMap = [
@@ -127,6 +128,7 @@ class DatabaseServices {
           Constant.itemName.toString(): itemName.toLowerCase(),
           Constant.itemQty.toString(): itemQty,
           Constant.itemPrice.toString(): itemPrice,
+          Constant.uid.toString(): uid
         }
       ];
     }
@@ -233,7 +235,7 @@ class DatabaseServices {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV User Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   /// Registers user info to the user database.
-  /// Initializes a blank array in the item database.
+  /// Initializes a blank array in the item database and adds Shop Name in the items Database.
   /// For Merchants, it is all the items that they hold to sell.
   /// For Customers, it is all the items present in their carts.
   Future<void> registerUserData(
@@ -241,16 +243,18 @@ class DatabaseServices {
       String firstName,
       String lastName,
       String address,
-      String mobile}) async {
-    await itemsDatabaseInstance
-        .document(uid)
-        .setData({Constant.items.toString(): []});
+      String mobile,
+      String shopName}) async {
+    await itemsDatabaseInstance.document(uid).setData({
+      Constant.shopName.toString(): shopName,
+      Constant.items.toString(): []
+    });
     return await userDatabaseInstance.document(uid).setData({
       Constant.typeOfUser.toString(): typeOfUser,
       Constant.firstName.toString(): firstName,
       Constant.lastName.toString(): lastName,
       Constant.address.toString(): address,
-      Constant.mobile.toString(): mobile
+      Constant.mobile.toString(): mobile,
     });
   }
 

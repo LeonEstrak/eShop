@@ -15,7 +15,9 @@ class Constant {
       items = Constant._("Items"),
       itemName = Constant._("Item Name"),
       itemQty = Constant._("Item Quantity"),
-      itemPrice = Constant._("Item Price");
+      itemPrice = Constant._("Item Price"),
+      uid = Constant._("UID"),
+      shopName = Constant._("Shop Name");
 
   String _value;
 

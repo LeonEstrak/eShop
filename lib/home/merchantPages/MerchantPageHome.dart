@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopwork/home/merchantPages/ItemInfoCard.dart';
+import 'package:shopwork/main.dart';
 import 'package:shopwork/services/database.dart';
 import 'package:shopwork/shared/constants.dart';
 
@@ -40,17 +41,33 @@ class _MerchantPageHomeState extends State<MerchantPageHome> {
               children: [
                 IconButton(
                     icon: Icon(Icons.menu),
+                    // color: Colors.green,
                     onPressed: () => Scaffold.of(context).openDrawer()),
                 Center(
-                  heightFactor: 1.35,
+                  // heightFactor: 1,
                   child: Text(
                     "Shop",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 40,
+                      // color: Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
+                // Positioned(
+                //   right: 10,
+                //   child: IconButton(
+                //       icon: Icon(Icons.brightness_5),
+                //       onPressed: () {
+                //         setState(() {
+
+                //           Application.brightness =
+                //               Application.brightness == Brightness.light
+                //                   ? Brightness.dark
+                //                   : Brightness.light;
+                //         });
+                //       }),
+                // )
               ],
             ),
             SizedBox(
@@ -189,7 +206,9 @@ Widget buildCard(
           ],
         ),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black26
+                : Colors.white,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(

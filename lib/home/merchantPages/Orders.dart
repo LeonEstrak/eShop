@@ -23,7 +23,8 @@ class _OrdersState extends State<Orders> {
           Text(
             "Orders",
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 40,
+              // color: Colors.green,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -110,7 +111,9 @@ class OrderCard extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black26
+              : Colors.white,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
