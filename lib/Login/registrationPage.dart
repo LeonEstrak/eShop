@@ -41,12 +41,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
             UnderlineInputBorder(borderSide: BorderSide(color: Colors.green)));
   }
 
+  Widget askShopName() {
+    if (typeOfUser == Constant.merchant.toString())
+      return TextFormField(
+        validator: (shopName) =>
+            shopName.isEmpty ? "Enter your Shop Name" : null,
+        decoration: myInputDecoration("Shop Name"),
+        onChanged: (String shopName) {
+          this.shopName = shopName;
+        },
+      );
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(title: Text('Registration')),
       body: Padding(
-        padding: const EdgeInsets.all(18.0),
+        padding: const EdgeInsets.symmetric(horizontal: 18.0),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -62,24 +75,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       color: Colors.green),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                child: Text(
-                  "Become a Merchant",
-                  style: TextStyle(color: Colors.green),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+              //   child: Text(
+              //     "Become a Merchant",
+              //     style: TextStyle(color: Colors.green),
+              //   ),
+              // ),
               SizedBox(
                 height: 25,
               ),
-              TextFormField(
-                validator: (shopName) =>
-                    shopName.isEmpty ? "Enter your Shop Name" : null,
-                decoration: myInputDecoration("Shop Name"),
-                onChanged: (String shopName) {
-                  this.shopName = shopName;
-                },
-              ),
+
               SizedBox(height: 15),
               TextFormField(
                 validator: (firstName) =>
@@ -156,31 +162,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 height: 10,
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              //     Radio(
-              //       value: Constant.customer.toString(),
-              //       groupValue: typeOfUser,
-              //       onChanged: (String value) {
-              //         setState(() {
-              //           typeOfUser = value;
-              //         });
-              //       },
-              //     ),
-              //     Text(Constant.customer.toString()),
-              //     Radio(
-              //       value: Constant.merchant.toString(),
-              //       groupValue: typeOfUser,
-              //       onChanged: (String value) {
-              //         setState(() {
-              //           typeOfUser = value;
-              //         });
-              //       },
-              //     ),
-              //     Text(Constant.merchant.toString())
-              //   ],
-              // ),
+              askShopName(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Radio(
+                    value: Constant.customer.toString(),
+                    groupValue: typeOfUser,
+                    onChanged: (String value) {
+                      setState(() {
+                        typeOfUser = value;
+                      });
+                    },
+                  ),
+                  Text(Constant.customer.toString()),
+                  Radio(
+                    value: Constant.merchant.toString(),
+                    groupValue: typeOfUser,
+                    onChanged: (String value) {
+                      setState(() {
+                        typeOfUser = value;
+                      });
+                    },
+                  ),
+                  Text(Constant.merchant.toString())
+                ],
+              ),
               SizedBox(
                 height: 100,
                 //Buttons ROW
@@ -239,8 +246,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                         mobile: mobileNumber,
                                         email: email,
                                         password: password,
-                                        typeOfUser:
-                                            Constant.merchant.toString());
+                                        typeOfUser: typeOfUser);
                                 bool userExist = data[0];
                                 dynamic userData = data[1];
                                 if (userExist) {

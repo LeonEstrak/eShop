@@ -1,20 +1,60 @@
-# language: dart
-# os:
-#   - linux
-# sudo: false
-# addons:
-#   apt:
-#     sources:
-#       - ubuntu-toolchain-r-test
-#     packages:
-#       - libstdc++6
-# before_script:
-# install:
-#   - git clone https://github.com/flutter/flutter.git -b stable --depth 1
-#   - ./flutter/bin/flutter doctor
-#   - ./flutter/bin/flutter pub get
-# script:
-#   - ./flutter/bin/flutter build apk
-# cache:
-#   directories:
-#     - $HOME/.pub-cache
+language: dart
+dist: xenial
+env:
+  global:
+    # Android
+    - API=28
+    - ABI=x86_64
+    - G_SERVICES=default
+    - ANDROID_TOOLS=4333796 # android-28
+    # Flutter
+    - FLUTTER_CHANNEL=stable
+    - FLUTTER_VERSION=1.12.13+hotfix.5-${FLUTTER_CHANNEL}
+    # Path
+    - ANDROID_HOME=${HOME}/android-sdk-linux
+    - TOOLS=${ANDROID_HOME}/tools
+    - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
+    - JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    - PATH="$JAVA_HOME/bin:$PATH"
+    - FLUTTER_HOME=${HOME}/flutter
+    - PATH=${HOME}/.pub-cache/bin:${PATH}
+    - PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
+addons:
+  apt:
+    packages:
+      - lib32stdc++6
+      - libvirt-bin
+      - bridge-utils
+      - openjdk-8-jdk-headless
+install:
+  # Android tools
+  - curl -L "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -o $HOME/tools.zip
+  - unzip -oq $HOME/tools.zip -d ${ANDROID_HOME}
+
+  # Accept licenses before installing components, no need to echo y for each component
+  - yes | sdkmanager --licenses
+
+  # Download SDK tools
+  - sdkmanager "tools" >/dev/null
+  - sdkmanager "platform-tools" >/dev/null
+  - sdkmanager "emulator" >/dev/null
+  - sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
+  - sdkmanager "system-images;android-$API;$G_SERVICES;$ABI" >/dev/null # install system images for emulator
+
+  # Install other required tools:
+  - sdkmanager "build-tools;28.0.3" >/dev/null # Implicit gradle dependency - gradle drives changes
+  - sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
+  - sdkmanager "extras;android;m2repository" >/dev/null
+
+  # Install flutter (while emulator is starting)
+  - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+  - if [ ! -f $HOME/flutter/bin/flutter ] ; then
+    git clone https://github.com/flutter/flutter.git $FLUTTER_HOME -b beta;
+    flutter pub get;
+    fi
+
+script:
+  - flutter build apk
+cache:
+  directories:
+    - $HOME/.pub-cache

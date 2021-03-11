@@ -21,6 +21,8 @@ class MerchantHome extends StatefulWidget {
   _MerchantHomeState createState() => _MerchantHomeState();
 }
 
+/// Email ID: merchant@gmail.com
+/// Password: merchant
 class _MerchantHomeState extends State<MerchantHome> {
   final PageController _controller = PageController(keepPage: true);
 

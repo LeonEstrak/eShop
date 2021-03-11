@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopwork/home/merchantPages/ItemInfoCard.dart';
-import 'package:shopwork/main.dart';
 import 'package:shopwork/services/database.dart';
 import 'package:shopwork/shared/constants.dart';
 

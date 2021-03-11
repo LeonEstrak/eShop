@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopwork/home/CustomerHome.dart';
 import 'package:shopwork/home/MerchantHome.dart';
 import 'package:shopwork/services/database.dart';
 import 'package:shopwork/shared/constants.dart';
@@ -25,7 +26,7 @@ class Home extends StatelessWidget {
           if (result == Constant.merchant.toString())
             return MerchantHome();
           else if (result == Constant.customer.toString())
-            return Text("TODO: Create a customer home page");
+            return CustomerHome();
         } else if (snapshot.hasError) {
           String result = snapshot.error.toString();
           return Text(result);
