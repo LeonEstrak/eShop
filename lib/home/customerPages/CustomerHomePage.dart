@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopwork/services/Authentication.dart';
 
 class CustomerHomePage extends StatefulWidget {
   @override
@@ -10,7 +11,18 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text("Customer Home"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Customer Home"),
+            RaisedButton(
+              onPressed: () {
+                AuthenticationServices.signOut();
+              },
+              child: Text("Log Out"),
+            )
+          ],
+        ),
       ),
     );
   }

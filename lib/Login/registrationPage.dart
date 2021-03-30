@@ -282,6 +282,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 "$errorMessage",
                 style: TextStyle(color: Colors.primaries[0]),
               ),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),
