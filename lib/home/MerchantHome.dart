@@ -75,10 +75,10 @@ class _MerchantHomeState extends State<MerchantHome> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          title: Text("Home"),
+          label: "Home",
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart), title: Text("Orders")),
+            icon: Icon(Icons.shopping_cart), label: "Orders"),
       ],
       onTap: (index) {
         setState(() {

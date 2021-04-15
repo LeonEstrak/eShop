@@ -46,7 +46,7 @@ class DatabaseServices {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Item Photo VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   ///Uploads the item image to `"images/$uid/items/$itemName"` in the Firebase Storage.
-  void uploadItemPhoto({File image, String itemName}) {
+  void _uploadItemPhoto({File image, String itemName}) {
     itemName = itemName.toLowerCase();
     String filePath = "images/$uid/items/$itemName";
     try {
@@ -112,7 +112,7 @@ class DatabaseServices {
   /// ]
   /// ```
   /// All item names will be stored in lower case
-  Future<void> merchantAddItemData(
+  Future<void> _merchantAddItemData(
       {String itemName, String itemQty, String itemPrice}) async {
     List itemMap = await allItems;
     if (itemMap != null) {
@@ -232,6 +232,25 @@ class DatabaseServices {
     return result;
   }
 
+  /// Takes Input of all the Item Data and writes data to Database only once
+  /// when the image has been uplaoded.
+  void addItemDataAndPhoto(
+      {File image, String itemName, String itemQty, String itemPrice}) {
+    itemName = itemName.toLowerCase();
+    String filePath = "images/$uid/items/$itemName";
+    try {
+      uploadTask = _firebaseStorage.ref().child(filePath).putFile(image);
+      print(uploadTask.toString());
+      //      return true;
+    } catch (e) {
+      print(e.toString());
+      //      return false;
+    }
+    uploadTask.onComplete.then((_) {
+      _merchantAddItemData(
+          itemName: itemName, itemQty: itemQty, itemPrice: itemPrice);
+    });
+  }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV User Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   /// Registers user info to the user database.

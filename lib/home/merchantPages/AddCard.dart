@@ -85,12 +85,12 @@ class _AddCardState extends State<AddCard> {
                       elevation: 4,
                       actions: <Widget>[
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~Image Picker~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        FlatButton.icon(
+                        TextButton.icon(
                             onPressed: () =>
                                 pickImage(ImageSource.camera, user, itemName),
                             icon: Icon(Icons.camera_enhance),
                             label: Text("Camera")),
-                        FlatButton.icon(
+                        TextButton.icon(
                             onPressed: () =>
                                 pickImage(ImageSource.gallery, user, itemName),
                             icon: Icon(Icons.photo_library),
@@ -172,11 +172,13 @@ class _AddCardState extends State<AddCard> {
                   ),
                   Text(uploadMessage),
                   Center(
-                    child: RaisedButton(
-                        elevation: 7.0,
-                        color: Colors.green,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 7.0,
+                          onPrimary: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                        ),
                         child: Text(
                           "Submit",
                           style: TextStyle(fontSize: 15),
@@ -191,13 +193,12 @@ class _AddCardState extends State<AddCard> {
                               isImageAvailable) {
                             setState(() {
                               /// Pressing the submit button uploads the photo and item info to database
-                              DatabaseServices(uid: user.uid).uploadItemPhoto(
-                                  itemName: itemName, image: image);
                               DatabaseServices(uid: user.uid)
-                                  .merchantAddItemData(
+                                  .addItemDataAndPhoto(
+                                      image: image,
                                       itemName: itemName,
-                                      itemQty: itemQty,
-                                      itemPrice: itemPrice);
+                                      itemPrice: itemPrice,
+                                      itemQty: itemQty);
                               uploadMessage =
                                   "Please Wait... Data being uploaded";
                               Navigator.of(context, rootNavigator: true)
