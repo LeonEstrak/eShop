@@ -50,7 +50,7 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   /// Retrieved image is stored in the MerchantPageProfile static widget variable.
   Future getImage(FirebaseUser user) async {
     ///[url] is an array of type `[bool,String]`
-    dynamic url = await DatabaseServices(uid: user.uid).downloadProfilePhoto();
+    dynamic url = await DatabaseServices(uid: user.uid).getProfilePhotoURL();
     if (!mounted) return;
     setState(() {
       MerchantPageProfile.isProfileImageAvailable = url[0];
@@ -67,7 +67,7 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of(context);
 
-    if (!MerchantPageProfile.isProfileImageAvailable) getImage(user);
+    // if (!MerchantPageProfile.isProfileImageAvailable) getImage(user);
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -114,15 +114,41 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
                   },
                 );
               },
-              child: Container(
-                height: 150,
-                width: 150,
-                clipBehavior: Clip.hardEdge,
-                child: MerchantPageProfile.profileImage,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.black12),
+              child: FutureBuilder(
+                future: DatabaseServices(uid: user.uid).getProfilePhotoURL(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data[0])
+                      return Container(
+                        height: 150,
+                        width: 150,
+                        clipBehavior: Clip.hardEdge,
+                        child: Image.network(snapshot.data[1]),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.black12),
+                      );
+                  }
+                  return Container(
+                    height: 150,
+                    width: 150,
+                    clipBehavior: Clip.hardEdge,
+                    child: MerchantPageProfile.profileImage,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.black12),
+                  );
+                },
               ),
+              // child: Container(
+              //   height: 150,
+              //   width: 150,
+              //   clipBehavior: Clip.hardEdge,
+              //   child: MerchantPageProfile.profileImage,
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(100),
+              //       color: Colors.black12),
+              // ),
             ),
             SizedBox(
               height: 25,

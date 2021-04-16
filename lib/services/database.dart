@@ -32,13 +32,14 @@ class DatabaseServices {
   ///Downloads the profile image from `"images/ProfilePhoto/$uid"` in the Firebase Storage.
   /// 0th position is a bool which tells if the image was found or not.
   /// 1st position is a String which is the downloadURL when 0th pos is true.
-  Future<List> downloadProfilePhoto() async {
+  Future<List> getProfilePhotoURL() async {
     String filePath = "images/ProfilePhoto/$uid";
     try {
       String result =
           await _firebaseStorage.ref().child(filePath).getDownloadURL();
       return [true, result];
     } catch (e) {
+      print(e.toString());
       return [false, "none"];
     }
   }

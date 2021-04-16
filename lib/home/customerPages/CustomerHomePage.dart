@@ -15,7 +15,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Customer Home"),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () {
                 AuthenticationServices.signOut();
               },

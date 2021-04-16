@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 // Widget imageFromCache({String timeStamp}) => FutureBuilder(future: DatabaseServices.getPhotoURL(timeStamp: timeStamp),builder: (context,snapshot){},)
-/// # Return: CachedNetworkImage <Object>
+/// ### Return: CachedNetworkImage <Object>
 /// Looks up if the image is present in the cache, if not, download it from network.
 Widget imageAsWidget({String itemName}) {
-  FutureBuilder(
+  return FutureBuilder(
       future: DatabaseServices().downloadItemPhoto(itemName),
       builder: (context, snapshot) {
         if (snapshot.hasData) {

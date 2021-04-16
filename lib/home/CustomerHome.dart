@@ -42,10 +42,9 @@ class _CustomerHomeState extends State<CustomerHome> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          title: Text("Home"),
+          label: "Home",
         ),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart), title: Text("Cart")),
+        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
       ],
       onTap: (index) {
         setState(() {
