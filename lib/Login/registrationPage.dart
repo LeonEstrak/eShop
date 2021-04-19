@@ -199,11 +199,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
                         child: Container(
                           height: 40,
-                          child: RaisedButton(
-                            elevation: 7.0,
-                            color: Colors.green,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 7.0,
+                              primary: Colors.green,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                            ),
                             child: Text(
                               "Back",
                               style: TextStyle(
@@ -223,11 +225,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
                         child: Container(
                           height: 40,
-                          child: RaisedButton(
-                            elevation: 7.0,
-                            color: Colors.green,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 7.0,
+                              primary: Colors.green,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                            ),
                             child: Text(
                               "Register",
                               style: TextStyle(

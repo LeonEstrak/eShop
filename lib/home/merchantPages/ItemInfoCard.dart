@@ -93,7 +93,7 @@ class _ItemInfoCardState extends State<ItemInfoCard> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // FlatButton.icon(
+                      // TextButton.icon(
                       //     onPressed: () {
                       //       showModalBottomSheet(
                       //         context: context,
@@ -110,14 +110,14 @@ class _ItemInfoCardState extends State<ItemInfoCard> {
                       //     },
                       //     icon: Icon(Icons.edit),
                       //     label: Text("Edit")),
-                      FlatButton.icon(
+                      TextButton.icon(
                           onPressed: () {
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
                                       title: Text("Delete"),
                                       actions: [
-                                        FlatButton(
+                                        TextButton(
                                             onPressed: () {
                                               DatabaseServices(uid: user.uid)
                                                   .deleteItem(
@@ -128,7 +128,7 @@ class _ItemInfoCardState extends State<ItemInfoCard> {
                                               Navigator.pop(context);
                                             },
                                             child: Text("Yes")),
-                                        FlatButton(
+                                        TextButton(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },

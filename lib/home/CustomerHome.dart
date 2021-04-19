@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopwork/home/customerPages/CustomerCartPage.dart';
 import 'package:shopwork/home/customerPages/CustomerHomePage.dart';
+import 'package:shopwork/home/customerPages/CustomerProfilePage.dart';
 
 class CustomerHome extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _CustomerHomeState extends State<CustomerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomerProfilePage(),
       body: _buildPageView(),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );

@@ -53,20 +53,6 @@ class _MerchantPageHomeState extends State<MerchantPageHome> {
                     ),
                   ),
                 ),
-                // Positioned(
-                //   right: 10,
-                //   child: IconButton(
-                //       icon: Icon(Icons.brightness_5),
-                //       onPressed: () {
-                //         setState(() {
-
-                //           Application.brightness =
-                //               Application.brightness == Brightness.light
-                //                   ? Brightness.dark
-                //                   : Brightness.light;
-                //         });
-                //       }),
-                // )
               ],
             ),
             SizedBox(

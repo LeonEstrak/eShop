@@ -9,21 +9,38 @@ class CustomerHomePage extends StatefulWidget {
 class _CustomerHomePageState extends State<CustomerHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Customer Home"),
-            ElevatedButton(
-              onPressed: () {
-                AuthenticationServices.signOut();
-              },
-              child: Text("Log Out"),
-            )
-          ],
-        ),
-      ),
-    );
+    return SafeArea(
+        child: Container(
+            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: Column(children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              Stack(
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.menu),
+                      // color: Colors.green,
+                      onPressed: () => Scaffold.of(context).openDrawer()),
+                  Center(
+                    // heightFactor: 1,
+                    child: Text(
+                      "Shops",
+                      style: TextStyle(
+                        fontSize: 40,
+                        // color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  AuthenticationServices.signOut();
+                },
+                child: Text("Log Out"),
+              )
+            ])));
   }
 }

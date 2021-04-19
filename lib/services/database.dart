@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:shopwork/shared/constants.dart';
 
 class DatabaseServices {
@@ -34,14 +35,22 @@ class DatabaseServices {
   /// 1st position is a String which is the downloadURL when 0th pos is true.
   Future<List> getProfilePhotoURL() async {
     String filePath = "images/ProfilePhoto/$uid";
+    //TODO: Use a different method fetching Profile Photo
+    //StorageExceptions not being catched anymore
     try {
       String result =
           await _firebaseStorage.ref().child(filePath).getDownloadURL();
       return [true, result];
-    } catch (e) {
+    } on PlatformException catch (e) {
       print(e.toString());
       return [false, "none"];
     }
+    // return await _firebaseStorage
+    //     .ref()
+    //     .child(filePath)
+    //     .getDownloadURL()
+    //     .then((value) => [true, value])
+    //     .catchError((err) => [false, "none"]).;
   }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Item Photo VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -296,11 +305,11 @@ class DatabaseServices {
   /// ### @input: Constant Class
   /// ### @output: String
   /// Returns a String containing information of the user
-  Future<String> getUserData(Constant object) async {
+  Future<String> getUserData(Constant constant) async {
     String result;
     try {
       await userDatabaseInstance.document(uid).get().then((documentSnapshot) =>
-          result = documentSnapshot.data[object.toString()].toString());
+          result = documentSnapshot.data[constant.toString()].toString());
     } catch (e) {
       result = e.toString();
     }

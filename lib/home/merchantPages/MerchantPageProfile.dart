@@ -35,31 +35,13 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   Future pickImage(ImageSource source, FirebaseUser user) async {
     File selected = await ImagePicker.pickImage(source: source);
     setState(() {
-      MerchantPageProfile.profileImage = Image.file(
-        selected,
-        fit: BoxFit.cover,
-      );
-      Navigator.of(context, rootNavigator: true).pop('dialog');
-      DatabaseServices(uid: user.uid).uploadProfilePhoto(image: selected);
-    });
-  }
-
-  /// ### @input: FirebaseUser user
-  /// ### @output: Future<void>
-  /// Image is retrieved using the DatabaseServices instance from the Firebase Storage.
-  /// Retrieved image is stored in the MerchantPageProfile static widget variable.
-  Future getImage(FirebaseUser user) async {
-    ///[url] is an array of type `[bool,String]`
-    dynamic url = await DatabaseServices(uid: user.uid).getProfilePhotoURL();
-    if (!mounted) return;
-    setState(() {
-      MerchantPageProfile.isProfileImageAvailable = url[0];
-      downloadURL = url[1];
-      if (MerchantPageProfile.isProfileImageAvailable)
-        MerchantPageProfile.profileImage = Image.network(
-          downloadURL,
+      if (selected != null)
+        MerchantPageProfile.profileImage = Image.file(
+          selected,
           fit: BoxFit.cover,
         );
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      DatabaseServices(uid: user.uid).uploadProfilePhoto(image: selected);
     });
   }
 
@@ -67,12 +49,9 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of(context);
 
-    // if (!MerchantPageProfile.isProfileImageAvailable) getImage(user);
-
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
-//      mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
               height: 25,
@@ -99,12 +78,12 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
                       elevation: 4,
                       actions: <Widget>[
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~Image Picker~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        FlatButton.icon(
+                        TextButton.icon(
                             onPressed: () =>
                                 pickImage(ImageSource.camera, user),
                             icon: Icon(Icons.camera_enhance),
                             label: Text("Camera")),
-                        FlatButton.icon(
+                        TextButton.icon(
                             onPressed: () =>
                                 pickImage(ImageSource.gallery, user),
                             icon: Icon(Icons.photo_library),
@@ -171,7 +150,7 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
             Divider(
               height: 50,
             ),
-            FlatButton.icon(
+            TextButton.icon(
                 onPressed: () => showDialog(
                     context: context,
                     builder: (context) {
@@ -228,11 +207,13 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
                                   },
                                 ),
                                 SizedBox(height: 20),
-                                FlatButton(
-                                  color: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20.0)),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                  ),
                                   onPressed: () {
                                     if (shopName == null ||
                                         shopName.length == 0) return;
@@ -248,7 +229,7 @@ class _MerchantPageProfileState extends State<MerchantPageProfile> {
                     }),
                 icon: Icon(Icons.shopping_basket),
                 label: Text("Shop Name")),
-            FlatButton.icon(
+            TextButton.icon(
                 onPressed: () {
                   AuthenticationServices.signOut();
                 },

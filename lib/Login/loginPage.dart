@@ -101,12 +101,14 @@ class _LoginPageState extends State<LoginPage> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               //LOGIN BUTTON
-                              elevation: 7.0,
-                              color: Colors.green,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 7.0,
+                                primary: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
                               child: Text(
                                 "Login",
                                 style: TextStyle(
@@ -146,11 +148,13 @@ class _LoginPageState extends State<LoginPage> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                            child: RaisedButton(
-                              elevation: 7.0,
-                              color: Colors.green,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 7.0,
+                                primary: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
                               child: Text(
                                 "Register",
                                 style: TextStyle(
