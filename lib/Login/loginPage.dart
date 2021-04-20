@@ -38,10 +38,6 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "$errorMessage",
-                    style: TextStyle(color: Colors.primaries[0]),
-                  ),
                   Container(
                       padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
                       child: Center(
@@ -171,7 +167,16 @@ class _LoginPageState extends State<LoginPage> {
                         )
                       ],
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "$errorMessage",
+                    style: TextStyle(
+                      color: Colors.primaries[0],
+                    ),
+                  ),
                 ],
               ),
             ),

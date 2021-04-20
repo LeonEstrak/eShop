@@ -36,89 +36,105 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of(context);
 
-    return SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 25,
-          ),
-          Text(
-            "Profile",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+    return SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width / 1.5,
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
             ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    title: Text("Change Profile Photo"),
-                    elevation: 4,
-                    actions: <Widget>[
-                      //~~~~~~~~~~~~~~~~~~~~~~~~~~~~Image Picker~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                      TextButton.icon(
-                          onPressed: () => pickImage(ImageSource.camera, user),
-                          icon: Icon(Icons.camera_enhance),
-                          label: Text("Camera")),
-                      TextButton.icon(
-                          onPressed: () => pickImage(ImageSource.gallery, user),
-                          icon: Icon(Icons.photo_library),
-                          label: Text("Gallery"))
-                    ],
-                  );
-                },
-              );
-            },
-            child: FutureBuilder(
-              future: DatabaseServices(uid: user.uid).getProfilePhotoURL(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data[0]) {
-                  CustomerProfilePage.profileImage =
-                      Image.network(snapshot.data[1]);
-                  return Container(
-                    height: 150,
-                    width: 150,
-                    clipBehavior: Clip.hardEdge,
-                    child: CustomerProfilePage.profileImage,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.black12),
-                  );
-                } else if (snapshot.hasError) {
-                  print(snapshot.error.toString());
-                  return Container(
-                    height: 150,
-                    width: 150,
-                    clipBehavior: Clip.hardEdge,
-                    child: CustomerProfilePage.profileImage,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.black12),
-                  );
-                }
-                return Center(
-                  child: CircularProgressIndicator(),
+            Text(
+              "Profile",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            // Container(
+            //   height: 150,
+            //   width: 150,
+            //   clipBehavior: Clip.hardEdge,
+            //   child: CustomerProfilePage.profileImage,
+            //   decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(100),
+            //       color: Colors.black12),
+            // ),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      title: Text("Change Profile Photo"),
+                      elevation: 4,
+                      actions: <Widget>[
+                        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~Image Picker~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                        TextButton.icon(
+                            onPressed: () =>
+                                pickImage(ImageSource.camera, user),
+                            icon: Icon(Icons.camera_enhance),
+                            label: Text("Camera")),
+                        TextButton.icon(
+                            onPressed: () =>
+                                pickImage(ImageSource.gallery, user),
+                            icon: Icon(Icons.photo_library),
+                            label: Text("Gallery"))
+                      ],
+                    );
+                  },
                 );
               },
+              child: FutureBuilder(
+                future: DatabaseServices(uid: user.uid).getProfilePhotoURL(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data[0]) {
+                    CustomerProfilePage.profileImage =
+                        Image.network(snapshot.data[1]);
+                    return Container(
+                      height: 150,
+                      width: 150,
+                      clipBehavior: Clip.hardEdge,
+                      child: CustomerProfilePage.profileImage,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.black12),
+                    );
+                  } else if ((snapshot.hasData && !snapshot.data[0]) ||
+                      snapshot.hasError) {
+                    print(snapshot.error.toString());
+                    return Container(
+                      height: 150,
+                      width: 150,
+                      clipBehavior: Clip.hardEdge,
+                      child: CustomerProfilePage.profileImage,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.black12),
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             ),
-          ),
-          TextButton.icon(
-              onPressed: () {
-                AuthenticationServices.signOut();
-              },
-              icon: Icon(Icons.person_outline),
-              label: Text("Logout"))
-        ],
+            TextButton.icon(
+                onPressed: () {
+                  AuthenticationServices.signOut();
+                },
+                icon: Icon(Icons.person_outline),
+                label: Text("Logout"))
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

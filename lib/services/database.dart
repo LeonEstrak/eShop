@@ -41,7 +41,7 @@ class DatabaseServices {
       String result =
           await _firebaseStorage.ref().child(filePath).getDownloadURL();
       return [true, result];
-    } on PlatformException catch (e) {
+    } catch (e) {
       print(e.toString());
       return [false, "none"];
     }
@@ -289,7 +289,7 @@ class DatabaseServices {
 
   ///Returns the Shop Name
   Future<String> get shopName {
-    return itemsDatabaseInstance
+    return userDatabaseInstance
         .document(uid)
         .get()
         .then((value) => value[Constant.shopName.toString()]);
@@ -297,7 +297,7 @@ class DatabaseServices {
 
   /// Changes the Shop name to the newName
   void setShopName(String newName) {
-    itemsDatabaseInstance
+    userDatabaseInstance
         .document(uid)
         .updateData({Constant.shopName.toString(): newName});
   }
@@ -314,5 +314,15 @@ class DatabaseServices {
       result = e.toString();
     }
     return result;
+  }
+
+  Future<List<DocumentSnapshot>> getListOfMerchantsData() {
+    return userDatabaseInstance.getDocuments().then((value) {
+      var docs = value.documents;
+      docs.removeWhere((element) =>
+          element.data[Constant.typeOfUser.toString()] ==
+          Constant.customer.toString());
+      return docs;
+    });
   }
 }
