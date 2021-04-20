@@ -1,6 +1,6 @@
 ![Travis (.com)](https://img.shields.io/travis/com/LeonEstrak/shop_work?logo=Travis&style=for-the-badge)
 
-# shopwork
+# eShop
 
 #### Capstone Project
 
