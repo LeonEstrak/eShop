@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shopwork/services/Authentication.dart';
 import 'package:shopwork/services/database.dart';
+import 'package:shopwork/shared/constants.dart';
 
 class CustomerProfilePage extends StatefulWidget {
   static Image profileImage =
@@ -56,15 +57,6 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
             SizedBox(
               height: 25,
             ),
-            // Container(
-            //   height: 150,
-            //   width: 150,
-            //   clipBehavior: Clip.hardEdge,
-            //   child: CustomerProfilePage.profileImage,
-            //   decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(100),
-            //       color: Colors.black12),
-            // ),
             GestureDetector(
               onTap: () {
                 showDialog(
@@ -125,6 +117,27 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
                   );
                 },
               ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            FutureBuilder(
+              future: DatabaseServices(uid: user.uid)
+                  .getUserData(Constant.firstName),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    snapshot.data.toUpperCase(),
+                    style: TextStyle(fontSize: 20),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error);
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+            SizedBox(
+              height: 25,
             ),
             TextButton.icon(
                 onPressed: () {

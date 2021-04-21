@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopwork/home/customerPages/ShopCard.dart';
-import 'package:shopwork/services/Authentication.dart';
 import 'package:shopwork/services/database.dart';
 import 'package:shopwork/shared/constants.dart';
 
@@ -62,11 +61,10 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       return ListView.builder(
                           itemCount: docsList.length,
                           itemBuilder: (context, index) {
+                            print(docsList[index].documentID);
                             return ShopCard(
-                                shopName: docsList[index]
-                                    [Constant.shopName.toString()],
-                                address: docsList[index]
-                                    [Constant.address.toString()]);
+                              documentSnapshot: docsList[index],
+                            );
                           });
                     }
                     return Center(child: CircularProgressIndicator());

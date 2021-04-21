@@ -267,23 +267,23 @@ class DatabaseServices {
   /// Initializes a blank array in the item database and adds Shop Name in the items Database.
   /// For Merchants, it is all the items that they hold to sell.
   /// For Customers, it is all the items present in their carts.
-  Future<void> registerUserData(
+  void registerUserData(
       {String typeOfUser,
       String firstName,
       String lastName,
       String address,
       String mobile,
       String shopName}) async {
-    await itemsDatabaseInstance.document(uid).setData({
-      Constant.shopName.toString(): shopName,
-      Constant.items.toString(): []
-    });
-    return await userDatabaseInstance.document(uid).setData({
+    await itemsDatabaseInstance
+        .document(uid)
+        .setData({Constant.items.toString(): []});
+    await userDatabaseInstance.document(uid).setData({
       Constant.typeOfUser.toString(): typeOfUser,
       Constant.firstName.toString(): firstName,
       Constant.lastName.toString(): lastName,
       Constant.address.toString(): address,
       Constant.mobile.toString(): mobile,
+      Constant.shopName.toString(): shopName,
     });
   }
 
