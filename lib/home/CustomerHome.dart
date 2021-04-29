@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopwork/home/customerPages/BottomPaymentSheet.dart';
 import 'package:shopwork/home/customerPages/CustomerCartPage.dart';
 import 'package:shopwork/home/customerPages/CustomerHomePage.dart';
 import 'package:shopwork/home/customerPages/CustomerProfilePage.dart';
@@ -18,11 +19,25 @@ class _CustomerHomeState extends State<CustomerHome> {
   ///Default set to the first page i.e at the 0th position.
   int selectedIndex = 0;
 
+  conditionallyShowBottomSheet() {
+    if (selectedIndex == 1) return BottomPaymentSheet();
+    return Container(
+      height: 0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: CustomerProfilePage(),
       body: _buildPageView(),
+      bottomSheet: AnimatedContainer(
+        height:
+            selectedIndex == 0 ? 0 : MediaQuery.of(context).size.height / 12,
+        duration: Duration(seconds: 1),
+        curve: Curves.easeOutCubic,
+        child: BottomPaymentSheet(),
+      ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }

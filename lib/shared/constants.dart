@@ -19,6 +19,7 @@ class Constant {
       cart = Constant._("Cart"),
       orders = Constant._("Orders"),
       uid = Constant._("UID"),
+      amount = Constant._("Amount"),
       shopName = Constant._("Shop Name");
 
   String _value;

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,6 +54,14 @@ class _CustomerCartPageState extends State<CustomerCartPage> {
                             documentID: itemMap[index][Constant.uid.toString()],
                             itemName: itemMap[index]
                                 [Constant.itemName.toString()],
+                            itemPrice: double.tryParse((itemMap[index]
+                                            [Constant.amount.toString()] /
+                                        itemMap[index]
+                                            [Constant.itemQty.toString()])
+                                    .toString())
+                                .toInt()
+                                .toString(),
+                            fromCartPage: true,
                           ));
                 }
                 return Center(child: CircularProgressIndicator());

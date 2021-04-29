@@ -22,7 +22,8 @@ class DatabaseServices {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Cart Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Future addItemToCart({String shopDocID, String itemName, int qty}) async {
+  Future addItemToCart(
+      {String shopDocID, String itemName, int qty, int itemPrice}) async {
     List itemMap = await allItemsInCart;
     try {
       if (qty == 0) {
@@ -34,7 +35,8 @@ class DatabaseServices {
           {
             Constant.itemName.toString(): itemName,
             Constant.itemQty.toString(): qty,
-            Constant.uid.toString(): shopDocID
+            Constant.amount.toString(): qty * itemPrice,
+            Constant.uid.toString(): shopDocID,
           }
         ];
       } else {
@@ -43,6 +45,7 @@ class DatabaseServices {
           if (item[Constant.itemName.toString()] == itemName &&
               item[Constant.uid.toString()] == shopDocID) {
             item[Constant.itemQty.toString()] = qty;
+            item[Constant.amount.toString()] = qty * itemPrice;
             flag = true;
           }
         });
@@ -50,6 +53,7 @@ class DatabaseServices {
           itemMap.add({
             Constant.itemName.toString(): itemName,
             Constant.itemQty.toString(): qty,
+            Constant.amount.toString(): qty * itemPrice,
             Constant.uid.toString(): shopDocID
           });
       }
@@ -72,6 +76,16 @@ class DatabaseServices {
     return itemMap;
   }
 
+  Stream<int> get amountPayable {
+    return itemsDatabaseInstance.document(uid).snapshots().asyncMap((event) {
+      int total = 0;
+      for (var item in event.data[Constant.cart.toString()]) {
+        int amt = item[Constant.amount.toString()];
+        total += amt;
+      }
+      return total;
+    });
+  }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Profile Photo VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   ///Uploads the profile image to `"images/ProfilePhoto/$uid"` in the Firebase Storage.

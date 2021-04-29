@@ -7,7 +7,13 @@ import 'package:shopwork/shared/imageDownloader.dart';
 class ItemCard extends StatefulWidget {
   final String itemName, itemPrice;
   final String documentID;
-  ItemCard({Key key, this.itemName, this.itemPrice, this.documentID})
+  final bool fromCartPage;
+  ItemCard(
+      {Key key,
+      this.itemName,
+      this.itemPrice,
+      this.documentID,
+      this.fromCartPage = false})
       : super(key: key);
   @override
   _ItemCardState createState() => _ItemCardState();
@@ -17,7 +23,7 @@ class _ItemCardState extends State<ItemCard> {
   String shopName = "";
 
   Widget itemPriceNull() {
-    if (widget.itemPrice == null) {
+    if (widget.fromCartPage) {
       return FutureBuilder(
           future: DatabaseServices(uid: widget.documentID)
               .getUserData(Constant.shopName),
@@ -68,6 +74,7 @@ class _ItemCardState extends State<ItemCard> {
               SizedBox(height: 10),
               AddItemButton(
                 itemName: widget.itemName,
+                itemPrice: widget.itemPrice,
                 documentID: widget.documentID,
               ),
               SizedBox(height: 10),

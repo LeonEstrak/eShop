@@ -5,9 +5,9 @@ import 'package:shopwork/services/database.dart';
 import 'package:shopwork/shared/constants.dart';
 
 class AddItemButton extends StatefulWidget {
-  final String itemName;
+  final String itemName, itemPrice;
   final String documentID;
-  AddItemButton({this.itemName, this.documentID});
+  AddItemButton({this.itemName, this.documentID, this.itemPrice});
   @override
   _AddItemButtonState createState() => _AddItemButtonState();
 }
@@ -23,6 +23,12 @@ class _AddItemButtonState extends State<AddItemButton> {
         count = item[Constant.itemQty.toString()];
     });
     return count;
+  }
+
+  int getItemPrice() {
+    var price = int.tryParse(widget.itemPrice);
+    if (price == null) price = double.tryParse(widget.itemPrice).toInt();
+    return price;
   }
 
   int itemCount = 0;
@@ -47,6 +53,7 @@ class _AddItemButtonState extends State<AddItemButton> {
                       await DatabaseServices(uid: user.uid).addItemToCart(
                           itemName: widget.itemName,
                           qty: snapshot.data - 1,
+                          itemPrice: getItemPrice(),
                           shopDocID: widget.documentID);
 
                       this.setState(() {
@@ -73,6 +80,7 @@ class _AddItemButtonState extends State<AddItemButton> {
                       await DatabaseServices(uid: user.uid).addItemToCart(
                           itemName: widget.itemName,
                           qty: snapshot.data + 1,
+                          itemPrice: getItemPrice(),
                           shopDocID: widget.documentID);
 
                       this.setState(() {
@@ -93,6 +101,7 @@ class _AddItemButtonState extends State<AddItemButton> {
               await DatabaseServices(uid: user.uid).addItemToCart(
                   itemName: widget.itemName,
                   qty: 1,
+                  itemPrice: getItemPrice(),
                   shopDocID: widget.documentID);
               this.setState(() {
                 itemCount++;
