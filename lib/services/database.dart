@@ -23,9 +23,13 @@ class DatabaseServices {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Cart Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Future addItemToCart({String shopDocID, String itemName, int qty}) async {
-    List itemMap = await itemsInCart;
+    List itemMap = await allItemsInCart;
     try {
-      if (itemMap == null) {
+      if (qty == 0) {
+        itemMap.removeWhere((element) =>
+            element[Constant.itemName.toString()] == itemName &&
+            element[Constant.uid.toString()] == shopDocID);
+      } else if (itemMap == null) {
         itemMap = [
           {
             Constant.itemName.toString(): itemName,
@@ -57,7 +61,7 @@ class DatabaseServices {
         .updateData({Constant.cart.toString(): itemMap});
   }
 
-  Future<List> get itemsInCart async {
+  Future<List> get allItemsInCart async {
     List itemMap;
     try {
       await itemsDatabaseInstance.document(uid).get().then((documentSnapshot) =>

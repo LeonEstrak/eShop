@@ -75,7 +75,7 @@ class _CustomerItemsPageState extends State<CustomerItemsPage> {
                                   [Constant.itemName.toString()],
                               itemPrice: _allItems[index]
                                   [Constant.itemPrice.toString()],
-                              documentSnapshot: widget.documentSnapshot,
+                              documentID: widget.documentSnapshot.documentID,
                             )),
                   );
                 } else if (snapshot.hasError) {

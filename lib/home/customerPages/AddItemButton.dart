@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,20 +6,20 @@ import 'package:shopwork/shared/constants.dart';
 
 class AddItemButton extends StatefulWidget {
   final String itemName;
-  final DocumentSnapshot documentSnapshot;
-  AddItemButton({this.itemName, this.documentSnapshot});
+  final String documentID;
+  AddItemButton({this.itemName, this.documentID});
   @override
   _AddItemButtonState createState() => _AddItemButtonState();
 }
 
 class _AddItemButtonState extends State<AddItemButton> {
   Future<int> getNumberOfItemsInCart(FirebaseUser user) async {
-    List itemMap = await DatabaseServices(uid: user.uid).itemsInCart;
+    List itemMap = await DatabaseServices(uid: user.uid).allItemsInCart;
     int count = 0;
     if (itemMap == null) return 0;
     itemMap.forEach((item) {
       if (item[Constant.itemName.toString()] == widget.itemName &&
-          item[Constant.uid.toString()] == widget.documentSnapshot.documentID)
+          item[Constant.uid.toString()] == widget.documentID)
         count = item[Constant.itemQty.toString()];
     });
     return count;
@@ -48,7 +47,7 @@ class _AddItemButtonState extends State<AddItemButton> {
                       await DatabaseServices(uid: user.uid).addItemToCart(
                           itemName: widget.itemName,
                           qty: snapshot.data - 1,
-                          shopDocID: widget.documentSnapshot.documentID);
+                          shopDocID: widget.documentID);
 
                       this.setState(() {
                         itemCount--;
@@ -74,7 +73,7 @@ class _AddItemButtonState extends State<AddItemButton> {
                       await DatabaseServices(uid: user.uid).addItemToCart(
                           itemName: widget.itemName,
                           qty: snapshot.data + 1,
-                          shopDocID: widget.documentSnapshot.documentID);
+                          shopDocID: widget.documentID);
 
                       this.setState(() {
                         itemCount++;
@@ -94,7 +93,7 @@ class _AddItemButtonState extends State<AddItemButton> {
               await DatabaseServices(uid: user.uid).addItemToCart(
                   itemName: widget.itemName,
                   qty: 1,
-                  shopDocID: widget.documentSnapshot.documentID);
+                  shopDocID: widget.documentID);
               this.setState(() {
                 itemCount++;
               });
