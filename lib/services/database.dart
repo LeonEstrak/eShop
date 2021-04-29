@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/services.dart';
 import 'package:shopwork/shared/constants.dart';
 
 class DatabaseServices {
@@ -18,6 +17,56 @@ class DatabaseServices {
       FirebaseStorage(storageBucket: "gs://shop-work-2f412.appspot.com");
 
   static StorageUploadTask uploadTask;
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Orders Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Cart Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Future addItemToCart({String shopDocID, String itemName, int qty}) async {
+    List itemMap = await itemsInCart;
+    try {
+      if (itemMap == null) {
+        itemMap = [
+          {
+            Constant.itemName.toString(): itemName,
+            Constant.itemQty.toString(): qty,
+            Constant.uid.toString(): shopDocID
+          }
+        ];
+      } else {
+        bool flag = false;
+        itemMap.forEach((item) {
+          if (item[Constant.itemName.toString()] == itemName &&
+              item[Constant.uid.toString()] == shopDocID) {
+            item[Constant.itemQty.toString()] = qty;
+            flag = true;
+          }
+        });
+        if (!flag)
+          itemMap.add({
+            Constant.itemName.toString(): itemName,
+            Constant.itemQty.toString(): qty,
+            Constant.uid.toString(): shopDocID
+          });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return await itemsDatabaseInstance
+        .document(uid)
+        .updateData({Constant.cart.toString(): itemMap});
+  }
+
+  Future<List> get itemsInCart async {
+    List itemMap;
+    try {
+      await itemsDatabaseInstance.document(uid).get().then((documentSnapshot) =>
+          itemMap = documentSnapshot.data[Constant.cart.toString()]);
+    } catch (e) {
+      print(e.toString());
+    }
+    return itemMap;
+  }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Profile Photo VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -208,9 +257,7 @@ class DatabaseServices {
       await itemsDatabaseInstance.document(uid).get().then((documentSnapshot) =>
           itemMap = documentSnapshot.data[Constant.items.toString()]);
     } catch (e) {
-      itemMap = [
-        {"Error": e.toString()}
-      ];
+      print(e.toString());
     }
     print(itemMap);
     return itemMap;

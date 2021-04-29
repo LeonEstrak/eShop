@@ -16,6 +16,8 @@ class Constant {
       itemName = Constant._("Item Name"),
       itemQty = Constant._("Item Quantity"),
       itemPrice = Constant._("Item Price"),
+      cart = Constant._("Cart"),
+      orders = Constant._("Orders"),
       uid = Constant._("UID"),
       shopName = Constant._("Shop Name");
 

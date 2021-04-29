@@ -5,7 +5,6 @@ import 'package:shopwork/shared/constants.dart';
 import 'package:shopwork/shared/imageDownloader.dart';
 
 class ShopCard extends StatelessWidget {
-  //TODO: Add Profile Photo from DB
   final DocumentSnapshot documentSnapshot;
   const ShopCard({this.documentSnapshot, Key key}) : super(key: key);
 

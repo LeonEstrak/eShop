@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shopwork/home/customerPages/AddItemButton.dart';
 import 'package:shopwork/shared/imageDownloader.dart';
 
 class ItemCard extends StatefulWidget {
@@ -33,19 +34,24 @@ class _ItemCardState extends State<ItemCard> {
             ),
           ),
           Expanded(
-            child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.itemName,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 15),
-                  Text(
-                    "₹ ${widget.itemPrice}",
-                    style: TextStyle(fontSize: 15),
-                  )
-                ]),
+            child: Column(children: [
+              SizedBox(height: 15),
+              Text(
+                widget.itemName,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 15),
+              Text(
+                "₹ ${widget.itemPrice}",
+                style: TextStyle(fontSize: 15),
+              ),
+              SizedBox(height: 10),
+              AddItemButton(
+                itemName: widget.itemName,
+                documentSnapshot: widget.documentSnapshot,
+              ),
+              SizedBox(height: 10),
+            ]),
           )
         ],
       ),
