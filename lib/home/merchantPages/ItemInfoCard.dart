@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopwork/home/merchantPages/EditCard.dart';
 import 'package:shopwork/services/database.dart';
 
 ///TODO:Implement the EDIT button functionality
@@ -137,7 +138,19 @@ class _ItemInfoCardState extends State<ItemInfoCard> {
                                     ));
                           },
                           icon: Icon(Icons.delete),
-                          label: Text("Delete"))
+                          label: Text("Delete")),
+                      TextButton.icon(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) => EditCard(
+                                      name: name,
+                                      price: price,
+                                      qty: qty,
+                                    ));
+                          },
+                          icon: Icon(Icons.edit),
+                          label: Text("Edit")),
                     ]),
               ],
             ),

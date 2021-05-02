@@ -15,7 +15,8 @@ class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of(context);
-
+    List names = ["Swattik", "Customer", "Aniket"];
+    List numberOfItems = [1, 2, 1];
     return SafeArea(
       child: Column(
         children: [
@@ -47,11 +48,10 @@ class _OrdersState extends State<Orders> {
 
                   return ListView(
                       children: List.generate(
-                          10,
+                          3,
                           (index) => OrderCard(
-                                name: "Name of Customer " +
-                                    (index + 1).toString(),
-                                numberOfItems: "Number of Items Ordered",
+                                customerName: names[index],
+                                numberOfItems: numberOfItems[index].toString(),
                               )));
                 } else if (snapshot.hasError) {
                   return Center(
@@ -69,8 +69,16 @@ class _OrdersState extends State<Orders> {
 }
 
 class OrderCard extends StatelessWidget {
-  final String name, numberOfItems;
-  const OrderCard({this.name, this.numberOfItems, Key key}) : super(key: key);
+  final String customerName, numberOfItems;
+  const OrderCard({this.customerName, this.numberOfItems, Key key})
+      : super(key: key);
+
+  showProfilePhoto() {
+    return Image.asset(
+      "lib/shared/addimage.png",
+      fit: BoxFit.cover,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +92,7 @@ class OrderCard extends StatelessWidget {
               height: 100,
               width: 100,
               clipBehavior: Clip.hardEdge,
-              child: Image.asset(
-                "lib/shared/addimage.png",
-                fit: BoxFit.cover,
-              ),
+              child: showProfilePhoto(),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(80),
                   color: Colors.black12),
@@ -98,12 +103,12 @@ class OrderCard extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    this.name,
+                    this.customerName,
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 15),
                   Text(
-                    this.numberOfItems,
+                    "Number of items: " + this.numberOfItems,
                     style: TextStyle(fontSize: 15),
                   )
                 ]),

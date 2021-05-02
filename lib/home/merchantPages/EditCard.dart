@@ -113,15 +113,9 @@ class _EditCardState extends State<EditCard> {
                                       modifiedItemName: itemName,
                                       modifiedItemQty: itemQty,
                                       modifiedItemPrice: itemPrice);
-                                  // dynamic imageData =
-                                  //     DatabaseServices(uid: user.uid)
-                                  //         .downloadItemPhoto(originalItemName);
-                                  // Image image = Image.network(imageData[1]);
-                                  // DatabaseServices(uid: user.uid)
-                                  //     .uploadItemPhoto(
-                                  //         itemName: itemName, image: image);
                                   Navigator.of(context, rootNavigator: true)
                                       .pop('dialog');
+                                  Navigator.pop(context);
                                 });
                               }
                             }),

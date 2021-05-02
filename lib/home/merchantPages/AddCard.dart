@@ -175,7 +175,7 @@ class _AddCardState extends State<AddCard> {
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 7.0,
-                          onPrimary: Colors.green,
+                          primary: Colors.green,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
                         ),

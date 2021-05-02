@@ -20,6 +20,82 @@ class DatabaseServices {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Orders Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  Future<List> getOrders({String uid}) async {
+    List orderMap;
+    try {
+      return await itemsDatabaseInstance
+          .document(uid)
+          .get()
+          .then((value) => orderMap = value[Constant.orders.toString()]);
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return orderMap;
+  }
+
+  Future<void> placeOrder(
+      {String shopUID, String itemName, int itemQty, int amount}) async {
+    List orderMap = await getOrders(uid: shopUID);
+    bool elementAlreadyPresent = false;
+    if (orderMap == null)
+      orderMap = [];
+    else {
+      orderMap.forEach((element) {
+        if (element[Constant.itemName.toString()] == itemName &&
+            element[Constant.uid.toString()] == uid) {
+          element[Constant.itemQty.toString()] = itemQty;
+          element[Constant.amount.toString()] = amount;
+          elementAlreadyPresent = true;
+        }
+      });
+    }
+    if (!elementAlreadyPresent)
+      orderMap.add({
+        Constant.itemName.toString(): itemName,
+        Constant.itemQty.toString(): itemQty,
+        Constant.amount.toString(): amount,
+        Constant.uid.toString(): uid
+      });
+
+    addItemToCustomerOrders(
+        shopUID: shopUID, itemName: itemName, itemQty: itemQty, amount: amount);
+    return await itemsDatabaseInstance
+        .document(shopUID)
+        .updateData({Constant.orders.toString(): orderMap});
+  }
+
+  Future<void> addItemToCustomerOrders(
+      {String shopUID, String itemName, int itemQty, int amount}) async {
+    //Removes Item from cart
+    addItemToCart(shopDocID: shopUID, itemName: itemName, qty: 0);
+
+    List orderMap = await getOrders(uid: uid);
+    bool elementAlreadyPresent = false;
+    if (orderMap == null)
+      orderMap = [];
+    else {
+      orderMap.forEach((element) {
+        if (element[Constant.itemName.toString()] == itemName &&
+            element[Constant.uid.toString()] == shopUID) {
+          element[Constant.itemQty.toString()] = itemQty;
+          element[Constant.amount.toString()] = amount;
+          elementAlreadyPresent = true;
+        }
+      });
+    }
+    if (!elementAlreadyPresent)
+      orderMap.add({
+        Constant.itemName.toString(): itemName,
+        Constant.itemQty.toString(): itemQty,
+        Constant.amount.toString(): amount,
+        Constant.uid.toString(): shopUID
+      });
+
+    return await itemsDatabaseInstance
+        .document(uid)
+        .updateData({Constant.orders.toString(): orderMap});
+  }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~VVVV Cart Data VVVV~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Future addItemToCart(
@@ -192,23 +268,13 @@ class DatabaseServices {
   Future<void> _merchantAddItemData(
       {String itemName, String itemQty, String itemPrice}) async {
     List itemMap = await allItems;
-    if (itemMap != null) {
-      itemMap.add({
-        Constant.itemName.toString(): itemName,
-        Constant.itemQty.toString(): itemQty,
-        Constant.itemPrice.toString(): itemPrice,
-        Constant.uid.toString(): uid
-      });
-    } else {
-      itemMap = [
-        {
-          Constant.itemName.toString(): itemName,
-          Constant.itemQty.toString(): itemQty,
-          Constant.itemPrice.toString(): itemPrice,
-          Constant.uid.toString(): uid
-        }
-      ];
-    }
+    if (itemMap == null) itemMap = [];
+    itemMap.add({
+      Constant.itemName.toString(): itemName,
+      Constant.itemQty.toString(): itemQty,
+      Constant.itemPrice.toString(): itemPrice,
+      Constant.uid.toString(): uid
+    });
     print(itemMap);
     return await itemsDatabaseInstance
         .document(uid)
