@@ -1,4 +1,4 @@
-![Travis (.com)](https://img.shields.io/travis/com/LeonEstrak/shop_work?logo=Travis&style=for-the-badge)
+[![Build Status](https://www.travis-ci.com/LeonEstrak/eShop.svg?branch=master)](https://www.travis-ci.com/LeonEstrak/eShop)
 
 # eShop
 
